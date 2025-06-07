@@ -723,24 +723,223 @@
             }
             
             sendToHeyGen(text) {
-                console.log('Voice input captured:', text);
+                console.log('🎤 Voice input captured:', text);
                 this.updateVoiceUI('processing');
                 
-                try {
-                    const heygenIframe = document.querySelector('#heygen-streaming-container iframe');
-                    if (heygenIframe) {
-                        heygenIframe.contentWindow.postMessage({
-                            type: 'voice-input',
-                            text: text
-                        }, '*');
-                    }
-                } catch (error) {
-                    console.log('Could not send to HeyGen iframe:', error);
-                }
+                // Show the captured text prominently with auto-send option
+                this.showCapturedTextWithActions(text);
+                
+                // Method 1: Try iframe messaging to HeyGen
+                this.tryIframeMessaging(text);
+                
+                // Method 2: Auto-paste into HeyGen chat (multiple attempts)
+                setTimeout(() => this.tryAutoInput(text), 200);
+                setTimeout(() => this.tryAutoInput(text), 1000);
+                setTimeout(() => this.tryAutoInput(text), 2000);
                 
                 setTimeout(() => {
                     this.updateVoiceUI('idle');
-                }, 1000);
+                }, 2000);
+            }
+            
+            showCapturedTextWithActions(text) {
+                // Update transcript to show what will be sent with manual options
+                this.transcriptText.innerHTML = `
+                    <div style="color: #4CAF50; font-weight: bold; margin-bottom: 10px;">
+                        ✅ Testo riconosciuto:
+                    </div>
+                    <div style="color: #fff; font-size: 16px; line-height: 1.4; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; margin: 10px 0; user-select: all; cursor: text;">
+                        "${text}"
+                    </div>
+                    <div style="display: flex; gap: 10px; margin: 15px 0;">
+                        <button onclick="navigator.clipboard.writeText('${text.replace(/'/g, "\\'")}'); this.innerText='✅ Copiato!'" 
+                                style="background: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            📋 Copia
+                        </button>
+                        <button onclick="document.getElementById('voiceTranscript').classList.remove('show')" 
+                                style="background: #666; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            ✖ Chiudi
+                        </button>
+                    </div>
+                    <div style="color: #FFD700; font-size: 11px; text-align: center;">
+                        🔄 Tentativo invio automatico in corso...<br>
+                        Se non funziona, copia e incolla nell'avatar HeyGen
+                    </div>
+                `;
+                this.voiceTranscript.classList.add('show');
+                
+                // Keep it visible longer for manual action if needed
+                setTimeout(() => {
+                    if (this.voiceTranscript.classList.contains('show')) {
+                        this.updateTranscriptForManualAction(text);
+                    }
+                }, 3000);
+            }
+            
+            updateTranscriptForManualAction(text) {
+                this.transcriptText.innerHTML = `
+                    <div style="color: #FF9800; font-weight: bold; margin-bottom: 10px;">
+                        ⚠️ Invio manuale richiesto:
+                    </div>
+                    <div style="color: #fff; font-size: 16px; line-height: 1.4; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; margin: 10px 0; user-select: all; cursor: text;">
+                        "${text}"
+                    </div>
+                    <div style="display: flex; gap: 10px; margin: 15px 0;">
+                        <button onclick="navigator.clipboard.writeText('${text.replace(/'/g, "\\'")}'); this.innerText='✅ Copiato!'" 
+                                style="background: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            📋 Copia testo
+                        </button>
+                        <button onclick="document.getElementById('voiceTranscript').classList.remove('show')" 
+                                style="background: #666; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            ✖ Chiudi
+                        </button>
+                    </div>
+                    <div style="color: #ccc; font-size: 11px; text-align: center;">
+                        Incolla nel campo di testo dell'avatar HeyGen →
+                    </div>
+                `;
+            }
+            
+            tryIframeMessaging(text) {
+                try {
+                    const heygenIframe = document.querySelector('#heygen-streaming-container iframe');
+                    if (heygenIframe) {
+                        // Try multiple message formats that HeyGen might accept
+                        const messages = [
+                            { type: 'voice-input', text: text },
+                            { type: 'text-input', content: text },
+                            { type: 'chat-message', message: text },
+                            { action: 'send-message', text: text }
+                        ];
+                        
+                        messages.forEach(msg => {
+                            heygenIframe.contentWindow.postMessage(msg, '*');
+                        });
+                        
+                        console.log('📤 Sent messages to HeyGen iframe');
+                    }
+                } catch (error) {
+                    console.log('❌ Iframe messaging failed:', error);
+                }
+            }
+            
+            tryAutoInput(text) {
+                // Method 2: Find HeyGen input elements and simulate typing
+                setTimeout(() => {
+                    // Look for common input selectors in HeyGen
+                    const selectors = [
+                        'input[type="text"]',
+                        'textarea',
+                        '[contenteditable="true"]',
+                        '.chat-input',
+                        '.message-input',
+                        '[placeholder*="message"]',
+                        '[placeholder*="chat"]',
+                        '[placeholder*="type"]'
+                    ];
+                    
+                    let inputFound = false;
+                    
+                    // Try to find input in main document
+                    selectors.forEach(selector => {
+                        if (inputFound) return;
+                        
+                        const input = document.querySelector(selector);
+                        if (input) {
+                            this.fillInput(input, text);
+                            inputFound = true;
+                            console.log('✅ Found input in main document:', selector);
+                        }
+                    });
+                    
+                    // Try to find input in iframe
+                    if (!inputFound) {
+                        try {
+                            const heygenIframe = document.querySelector('#heygen-streaming-container iframe');
+                            if (heygenIframe && heygenIframe.contentDocument) {
+                                selectors.forEach(selector => {
+                                    if (inputFound) return;
+                                    
+                                    const input = heygenIframe.contentDocument.querySelector(selector);
+                                    if (input) {
+                                        this.fillInput(input, text);
+                                        inputFound = true;
+                                        console.log('✅ Found input in iframe:', selector);
+                                    }
+                                });
+                            }
+                        } catch (error) {
+                            console.log('⚠️ Cannot access iframe content (CORS)');
+                        }
+                    }
+                    
+                    if (!inputFound) {
+                        console.log('⚠️ No input field found for auto-filling');
+                        this.showManualCopyOption(text);
+                    }
+                }, 100);
+            }
+            
+            fillInput(input, text) {
+                // Set the value
+                if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+                    input.value = text;
+                } else if (input.contentEditable === 'true') {
+                    input.innerText = text;
+                }
+                
+                // Trigger events to notify the application
+                const events = ['input', 'change', 'keyup', 'blur'];
+                events.forEach(eventType => {
+                    const event = new Event(eventType, { bubbles: true });
+                    input.dispatchEvent(event);
+                });
+                
+                // Try to find and click send button
+                setTimeout(() => {
+                    this.tryClickSendButton(input);
+                }, 100);
+            }
+            
+            tryClickSendButton(input) {
+                const sendSelectors = [
+                    'button[type="submit"]',
+                    'button:contains("Send")',
+                    'button:contains("Invia")',
+                    '.send-button',
+                    '.submit-button',
+                    '[title*="send"]',
+                    '[aria-label*="send"]'
+                ];
+                
+                // Look for send button near the input
+                const parent = input.closest('form') || input.parentElement;
+                if (parent) {
+                    sendSelectors.forEach(selector => {
+                        const button = parent.querySelector(selector.replace(':contains', '[*='));
+                        if (button) {
+                            button.click();
+                            console.log('🚀 Clicked send button');
+                        }
+                    });
+                }
+            }
+            
+            showManualCopyOption(text) {
+                // Show a copy-to-clipboard option if auto-input fails
+                this.transcriptText.innerHTML = `
+                    <div style="color: #FF9800; font-weight: bold; margin-bottom: 10px;">
+                        ⚠️ Copia manualmente:
+                    </div>
+                    <div style="color: #fff; font-size: 16px; line-height: 1.4; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; margin: 10px 0;">
+                        "${text}"
+                    </div>
+                    <button onclick="navigator.clipboard.writeText('${text.replace(/'/g, "\\'")}'); this.innerText='✅ Copiato!'" 
+                            style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+                        📋 Copia negli appunti
+                    </button>
+                `;
+                this.voiceTranscript.classList.add('show');
             }
             
             handleVoiceError(error) {
