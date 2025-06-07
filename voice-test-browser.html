@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Test - Browser Native (Free)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 300;
+            margin: 0 0 10px 0;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .status.idle {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status.listening {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .status.processing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status.error {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #d32f2f;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b71c1c;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 100px;
+        }
+        
+        .result-box h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+        
+        .transcript {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #2c3e50;
+            min-height: 60px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .interim {
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .final {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        
+        .info-box {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .error-box {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .config-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .config-section h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="header">
+            <h1>🎤 Voice Test - Browser Native</h1>
+            <p>Test riconoscimento vocale senza API key (gratis)</p>
+        </div>
+        
+        <div id="support-info" class="info-box" style="display: none;">
+            ✅ <strong>Web Speech API supportata!</strong> Puoi testare il riconoscimento vocale gratuitamente.
+        </div>
+        
+        <div id="no-support" class="error-box" style="display: none;">
+            ❌ <strong>Web Speech API non supportata</strong> in questo browser. Prova Chrome/Edge.
+        </div>
+        
+        <div id="https-warning" class="warning" style="display: none;">
+            ⚠️ <strong>Attenzione:</strong> Servono permessi microfono. Assicurati di accettare quando richiesto.
+        </div>
+        
+        <div id="status" class="status idle">
+            🔵 Clicca "Inizia Ascolto" per testare
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn" class="btn btn-primary">
+                🎤 Inizia Ascolto
+            </button>
+            <button id="stopBtn" class="btn btn-danger" disabled>
+                ⏹️ Stop Ascolto
+            </button>
+        </div>
+        
+        <div class="result-box">
+            <h3>📝 Trascrizione in Tempo Reale</h3>
+            <div id="transcript" class="transcript">
+                Clicca "Inizia Ascolto" e parla in italiano...
+            </div>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <div id="duration" class="metric-value">0.0s</div>
+                <div class="metric-label">Durata</div>
+            </div>
+            <div class="metric">
+                <div id="words-count" class="metric-value">0</div>
+                <div class="metric-label">Parole</div>
+            </div>
+            <div class="metric">
+                <div id="confidence" class="metric-value">N/A</div>
+                <div class="metric-label">Confidenza</div>
+            </div>
+            <div class="metric">
+                <div id="language" class="metric-value">it-IT</div>
+                <div class="metric-label">Lingua</div>
+            </div>
+        </div>
+        
+        <div class="config-section">
+            <h3>⚙️ Configurazione</h3>
+            <div class="form-group">
+                <label for="language-select">Lingua:</label>
+                <select id="language-select">
+                    <option value="it-IT">Italiano</option>
+                    <option value="en-US">English (US)</option>
+                    <option value="en-GB">English (UK)</option>
+                    <option value="es-ES">Español</option>
+                    <option value="fr-FR">Français</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="continuous">Modalità:</label>
+                <select id="continuous">
+                    <option value="true">Continua (fino allo stop)</option>
+                    <option value="false">Singola frase</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BrowserVoiceTest {
+            constructor() {
+                this.recognition = null;
+                this.isListening = false;
+                this.startTime = null;
+                this.finalTranscript = '';
+                this.interimTranscript = '';
+                
+                this.initializeElements();
+                this.checkSupport();
+                this.setupEventListeners();
+            }
+            
+            initializeElements() {
+                this.statusEl = document.getElementById('status');
+                this.startBtn = document.getElementById('startBtn');
+                this.stopBtn = document.getElementById('stopBtn');
+                this.transcriptEl = document.getElementById('transcript');
+                this.durationEl = document.getElementById('duration');
+                this.wordsCountEl = document.getElementById('words-count');
+                this.confidenceEl = document.getElementById('confidence');
+                this.languageEl = document.getElementById('language');
+                this.languageSelect = document.getElementById('language-select');
+                this.continuousSelect = document.getElementById('continuous');
+                this.supportInfo = document.getElementById('support-info');
+                this.noSupport = document.getElementById('no-support');
+                this.httpsWarning = document.getElementById('https-warning');
+            }
+            
+            checkSupport() {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    this.supportInfo.style.display = 'block';
+                    
+                    // Check if HTTPS or localhost
+                    if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                        this.httpsWarning.style.display = 'block';
+                    }
+                    
+                    // Initialize Speech Recognition
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.recognition = new SpeechRecognition();
+                    this.setupRecognition();
+                } else {
+                    this.noSupport.style.display = 'block';
+                    this.startBtn.disabled = true;
+                    this.updateStatus('❌ Browser non supportato', 'error');
+                }
+            }
+            
+            setupRecognition() {
+                this.recognition.continuous = true;
+                this.recognition.interimResults = true;
+                this.recognition.lang = this.languageSelect.value;
+                
+                this.recognition.onstart = () => {
+                    this.isListening = true;
+                    this.startTime = Date.now();
+                    this.updateStatus('🔴 Ascolto in corso... Parla ora!', 'listening');
+                };
+                
+                this.recognition.onresult = (event) => {
+                    this.interimTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        const confidence = event.results[i][0].confidence;
+                        
+                        if (event.results[i].isFinal) {
+                            this.finalTranscript += transcript + ' ';
+                            this.confidenceEl.textContent = `${Math.round(confidence * 100)}%`;
+                        } else {
+                            this.interimTranscript += transcript;
+                        }
+                    }
+                    
+                    this.updateTranscript();
+                    this.updateMetrics();
+                };
+                
+                this.recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    let errorMessage = 'Errore sconosciuto';
+                    
+                    switch(event.error) {
+                        case 'not-allowed':
+                            errorMessage = 'Permessi microfono negati';
+                            break;
+                        case 'no-speech':
+                            errorMessage = 'Nessun audio rilevato';
+                            break;
+                        case 'audio-capture':
+                            errorMessage = 'Impossibile accedere al microfono';
+                            break;
+                        case 'network':
+                            errorMessage = 'Errore di rete';
+                            break;
+                        default:
+                            errorMessage = `Errore: ${event.error}`;
+                    }
+                    
+                    this.updateStatus(`❌ ${errorMessage}`, 'error');
+                    this.stopListening();
+                };
+                
+                this.recognition.onend = () => {
+                    this.isListening = false;
+                    this.updateStatus('✅ Ascolto terminato', 'success');
+                    this.startBtn.disabled = false;
+                    this.stopBtn.disabled = true;
+                };
+            }
+            
+            setupEventListeners() {
+                this.startBtn.addEventListener('click', () => this.startListening());
+                this.stopBtn.addEventListener('click', () => this.stopListening());
+                
+                this.languageSelect.addEventListener('change', () => {
+                    if (this.recognition) {
+                        this.recognition.lang = this.languageSelect.value;
+                        this.languageEl.textContent = this.languageSelect.value;
+                    }
+                });
+                
+                this.continuousSelect.addEventListener('change', () => {
+                    if (this.recognition) {
+                        this.recognition.continuous = this.continuousSelect.value === 'true';
+                    }
+                });
+            }
+            
+            startListening() {
+                if (!this.recognition) return;
+                
+                try {
+                    this.finalTranscript = '';
+                    this.interimTranscript = '';
+                    this.transcriptEl.innerHTML = '<span class="interim">Iniziando...</span>';
+                    
+                    this.recognition.start();
+                    this.startBtn.disabled = true;
+                    this.stopBtn.disabled = false;
+                    
+                } catch (error) {
+                    console.error('Errore avvio riconoscimento:', error);
+                    this.updateStatus('❌ Errore avvio riconoscimento', 'error');
+                }
+            }
+            
+            stopListening() {
+                if (this.recognition && this.isListening) {
+                    this.recognition.stop();
+                }
+            }
+            
+            updateTranscript() {
+                let html = '';
+                
+                if (this.finalTranscript) {
+                    html += `<span class="final">${this.finalTranscript}</span>`;
+                }
+                
+                if (this.interimTranscript) {
+                    html += `<span class="interim">${this.interimTranscript}</span>`;
+                }
+                
+                this.transcriptEl.innerHTML = html || 'In attesa di input vocale...';
+            }
+            
+            updateMetrics() {
+                if (this.startTime) {
+                    const duration = (Date.now() - this.startTime) / 1000;
+                    this.durationEl.textContent = `${duration.toFixed(1)}s`;
+                }
+                
+                const words = this.finalTranscript.trim().split(/\s+/).filter(w => w.length > 0);
+                this.wordsCountEl.textContent = words.length;
+            }
+            
+            updateStatus(message, type = 'idle') {
+                this.statusEl.textContent = message;
+                this.statusEl.className = `status ${type}`;
+            }
+        }
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new BrowserVoiceTest();
+        });
+    </script>
+</body>
+</html> 
