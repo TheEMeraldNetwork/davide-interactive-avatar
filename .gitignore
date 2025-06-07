@@ -1,0 +1,45 @@
+# 🔒 Security - NEVER commit API keys or secrets
+*.env*
+config.js
+secrets/
+credentials/
+keys/
+*.key
+*.pem
+
+# 🤖 AI & Avatar API Keys
+heygen-config.json
+avatar-secrets.json
+api-keys.json
+
+# 💾 System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 📝 Editor Files
+.vscode/
+.idea/
+*.swp
+*~
+
+# 📦 Dependencies
+node_modules/
+*.log
+
+# 🏗️ Build Files
+dist/
+build/
+.cache/
+.tmp/
+
+# 📄 Private Documents
+*.pdf
+private/
+confidential/
+personal/
+
+# Allow specific public files
+!README.md
+!logo*.png
+!favicon.ico 

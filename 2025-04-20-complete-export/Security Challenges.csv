@@ -1,0 +1,8 @@
+Challenge Date,IP Address,User Agent,Country,Challenge Type
+Sun May 28 07:15:23 UTC 2023,80.37.229.231,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",Spain,CAPTCHA_CHALLENGE
+Mon Jul 17 16:29:58 UTC 2023,163.116.172.119,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",France,EMAIL_PIN_CHALLENGE
+Wed Dec 04 14:29:13 UTC 2024,163.116.235.30,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",France,SSP_BLOCKING_CHALLENGE
+Wed Dec 04 14:29:35 UTC 2024,163.116.235.30,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",France,SSP_BLOCKING_CHALLENGE
+Sat Mar 15 22:38:22 UTC 2025,93.66.4.50,"Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [LinkedInApp]/9.30.8684.7",Italy,SSP_BLOCKING_CHALLENGE
+Sun Apr 06 08:13:10 UTC 2025,93.66.97.26,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Safari/605.1.15",Italy,SSP_BLOCKING_CHALLENGE
+Sun Apr 06 15:57:52 UTC 2025,2.196.145.190,"Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [LinkedInApp]/9.30.9628",Italy,EMAIL_PIN_CHALLENGE
