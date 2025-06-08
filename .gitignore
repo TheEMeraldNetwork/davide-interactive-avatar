@@ -39,6 +39,11 @@ private/
 confidential/
 personal/
 
+# 💳 Financial Data - NEVER commit
+Spese/
+movements_*.csv
+*movements*.csv
+
 # Allow specific public files
 !README.md
 !logo*.png

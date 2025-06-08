@@ -693,11 +693,11 @@
                         <h4 style="margin-bottom: 15px; color: #000;">Riepilogo Finanziario</h4>
                         <div style="margin-bottom: 15px;">
                             <div style="font-weight: 600; color: #666; font-size: 14px;">Spese Totali Annuali</div>
-                            <div style="font-size: 20px; font-weight: 700; color: #000;" id="totalExpensesSummary">€ 121.000</div>
+                            <div style="font-size: 20px; font-weight: 700; color: #000;" id="totalExpensesSummary">€ 114.200</div>
                         </div>
                         <div style="margin-bottom: 15px;">
                             <div style="font-weight: 600; color: #666; font-size: 14px;">Media Mensile</div>
-                            <div style="font-size: 18px; font-weight: 600; color: #666;" id="avgMonthlySummary">€ 10.083</div>
+                            <div style="font-size: 18px; font-weight: 600; color: #666;" id="avgMonthlySummary">€ 9.517</div>
                         </div>
                         <div>
                             <div style="font-weight: 600; color: #666; font-size: 14px;">Categoria Principale</div>
@@ -706,7 +706,7 @@
                     </div>
                 </div>
                 <div style="margin-top: 20px; font-size: 12px; color: #666; text-align: center;">
-                    Analisi basata sui movimenti bancari del periodo giugno 2024 - giugno 2025
+                    Visualizzazione demo delle categorie di spesa principali (dati illustrativi)
                 </div>
             </div>
         </div>
@@ -1021,16 +1021,16 @@
         });
         
         function initExpenseChart() {
-            // Dati delle spese principali basati sull'analisi CSV
+            // Dati demo per visualizzazione (non dati reali)
             const expenseData = {
-                'Casa e Abitazione': { amount: 37200, color: '#FF6384' },
-                'Famiglia e Figlia': { amount: 20200, color: '#36A2EB' },
-                'Investimenti': { amount: 25000, color: '#4BC0C0' },
-                'Mutuo': { amount: 15600, color: '#FFCE56' },
-                'Servizi Bancari': { amount: 8500, color: '#9966FF' },
-                'Trasporti': { amount: 4500, color: '#FF9F40' },
-                'Spese Personali': { amount: 6800, color: '#FF6B6B' },
-                'Utenze e Servizi': { amount: 3200, color: '#C9CBCF' }
+                'Casa e Abitazione': { amount: 36000, color: '#FF6384' },
+                'Famiglia e Figlia': { amount: 18000, color: '#36A2EB' },
+                'Investimenti': { amount: 24000, color: '#4BC0C0' },
+                'Mutuo': { amount: 15000, color: '#FFCE56' },
+                'Servizi Bancari': { amount: 8000, color: '#9966FF' },
+                'Trasporti': { amount: 4200, color: '#FF9F40' },
+                'Spese Personali': { amount: 6000, color: '#FF6B6B' },
+                'Utenze e Servizi': { amount: 3000, color: '#C9CBCF' }
             };
 
             // Prepara i dati per Chart.js

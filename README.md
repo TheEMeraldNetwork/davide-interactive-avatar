@@ -29,20 +29,20 @@
 
 ### **Funzionalità Aggiunte:**
 - **📈 Grafico Interattivo**: Chart.js pie chart con 8 categorie principali
-- **💰 Dati Reali**: Analisi basata su 822 transazioni dal CSV bancario
-- **🎯 Categorizzazione Smart**: Identificazione automatica delle tipologie di spesa
+- **🎯 Dati Demo**: Visualizzazione con dati illustrativi realistici
+- **📊 Categorizzazione Smart**: 8 categorie tipiche di spesa familiare
 - **📋 Riepilogo Numerico**: Totali annuali, media mensile, categoria principale
 - **🎨 Design Integrato**: Sezione dedicata nella homepage prima delle guidelines
 
-### **Categorie Identificate:**
-1. **Casa e Abitazione** (€37.200 - 30.7%) - Affitto, bollette, Telepass
-2. **Investimenti** (€25.000 - 20.7%) - PAC, trading, commissioni
-3. **Famiglia e Figlia** (€20.200 - 16.7%) - Mantenimento, baby sitter, paghetta
-4. **Mutuo** (€15.600 - 12.9%) - Rate mensili e bonifici extra
-5. **Servizi Bancari** (€8.500 - 7.0%) - AmEx, commissioni, canoni
-6. **Spese Personali** (€6.800 - 5.6%) - Prelievi, ristoranti, shopping
-7. **Trasporti** (€4.500 - 3.7%) - Carburante, pedaggi
-8. **Utenze e Servizi** (€3.200 - 2.6%) - Telefonia, servizi online
+### **Categorie Demo:**
+1. **Casa e Abitazione** (€36.000 - 31.5%) - Affitto, bollette, spese condominiali
+2. **Investimenti** (€24.000 - 21.0%) - PAC, consulenza finanziaria, investimenti
+3. **Famiglia e Figlia** (€18.000 - 15.8%) - Spese familiari, cura bambini, educazione
+4. **Mutuo** (€15.000 - 13.1%) - Rate mensili e spese accessorie
+5. **Servizi Bancari** (€8.000 - 7.0%) - Carte di credito, commissioni, canoni
+6. **Spese Personali** (€6.000 - 5.3%) - Spese quotidiane, ristoranti, tempo libero
+7. **Trasporti** (€4.200 - 3.7%) - Carburante, pedaggi, manutenzione
+8. **Utenze e Servizi** (€3.000 - 2.6%) - Telefonia, servizi digitali
 
 ### **File Creati:**
 - `spese-analysis.html` - Analisi standalone dettagliata
