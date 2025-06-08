@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Davide Consiglio - Interactive Avatar Profile</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <style>
+        :root {
+            --primary-color: #e0e0e0;
+            --secondary-color: #a0a0a0;
+            --accent-color: #404040;
+            --text-color: #2c3e50;
+            --border-color: #404040;
+            --hover-color: #f8f9fa;
+            --dark-bg: #1a1a1a;
+            --header-gradient: linear-gradient(135deg, #000000, #1a1a1a);
+            --modal-bg: rgba(0, 0, 0, 0.95);
+            --modal-content-bg: #1a1a1a;
+            --link-color: #4a90e2;
+            --link-hover: #357abd;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #f5f6fa;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-right: 320px; /* Space for right sidebar */
+        }
+        
+        .right-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 9997;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+        
+
+        
+        .avatar-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 80px 20px 20px 20px;
+            background: #ffffff;
+        }
+        
+
+        
+        .widget-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            background: #ffffff;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 8px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+            width: 100vw;
+            margin-right: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+        }
+        
+        .back-button:hover {
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        
+        .back-button:active {
+            transform: translateY(0);
+        }
+        
+        .header-title {
+            font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #fff;
+            margin: 0;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+            margin-top: 5px;
+        }
+        
+
+        
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            color: #000;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-content {
+            padding: 30px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #000;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #000;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 20px 0 20px 70px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 25px;
+            width: 16px;
+            height: 16px;
+            background: #000;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px #000;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: #000;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 4px 4px 4px 0;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 300;
+            color: #000;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* VOICE WIDGET - UPDATED FOR SIDEBAR */
+        .voice-widget {
+            position: relative;
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-left: 4px solid #000;
+            overflow: hidden;
+        }
+        
+        .voice-widget-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .voice-widget-title {
+            font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .voice-widget-toggle {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .voice-widget-content {
+            padding: 10px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .voice-btn {
+            flex: 1;
+            padding: 12px;
+            border-left: 4px solid #000;
+            background: #f8f9fa;
+            color: #000;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .voice-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+        
+        .voice-btn.recording {
+            background: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .voice-text-area {
+            width: 100%;
+            min-height: 60px;
+            border-left: 4px solid #000;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 12px;
+            line-height: 1.3;
+            resize: vertical;
+            font-family: inherit;
+            box-sizing: border-box;
+            background: #f8f9fa;
+        }
+        
+        .voice-text-area:focus {
+            outline: none;
+            border-color: #000;
+        }
+        
+        .voice-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .copy-btn {
+            flex: 1;
+            padding: 10px;
+            background: #f8f9fa;
+            color: #000;
+            border-left: 4px solid #28a745;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .clear-btn {
+            flex: 1;
+            padding: 10px;
+            background: #f8f9fa;
+            color: #000;
+            border-left: 4px solid #6c757d;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .voice-status {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .voice-widget.minimized .voice-widget-content {
+            display: none;
+        }
+        
+        .voice-widget.minimized {
+            width: 100%;
+        }
+        
+        .browser-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                padding-right: 20px;
+            }
+            
+            .right-sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-title {
+                font-size: 20px;
+            }
+            
+            .card {
+                margin: 20px 10px;
+                border-radius: 8px;
+            }
+            
+            .card-header, .card-content {
+                padding: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 50px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item::before {
+                left: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; padding-left: 20px;">
+                <img src="Immagini e video/logo Emerald-03.png" alt="Emerald Logo" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <div class="header-controls">
+                <button class="back-button" onclick="goBack()">HOME</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Welcome Banner -->
+        <div class="card">
+            <div class="card-content" style="text-align: center; padding: 50px 30px;">
+                <h1 style="font-size: 48px; font-weight: 300; color: #000; margin: 0 0 20px 0; letter-spacing: 1px;">
+                    Benvenuti all'offsite CDO 2025 - Grezzana
+                </h1>
+                <div style="width: 100px; height: 4px; background: linear-gradient(135deg, #000 0%, #333 100%); margin: 0 auto;"></div>
+            </div>
+        </div>
+
+        <!-- Offsite Agenda -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Offsite CDO 2025 - Grezzana</h2>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <!-- 12 Giugno -->
+                    <div>
+                        <h3 style="color: #000; margin-bottom: 20px; font-size: 20px; font-weight: 600;">12 Giugno</h3>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">11:00 - 11:30</div>
+                            <div class="info-value">Introduzione (Perin, Consiglio)</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">11:30 - 12:30</div>
+                            <div class="info-value">Business Time 1 (Colombo, Scarabattoli)<br>• P&C, Costi e Operations<br>• Marketing, Vita e Salute</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">12:30 - 13:00</div>
+                            <div class="info-value">Intervento esterno e sorpresa (NTT)</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">13:00 - 14:30</div>
+                            <div class="info-value">Pranzo</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">14:30 - 15:00</div>
+                            <div class="info-value">Legal Time: intervento M.C. Muglia</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">15:00 - 15:30</div>
+                            <div class="info-value">Culture Time (Bencini)</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">15:30 - 18:30</div>
+                            <div class="info-value">Adoption time: gara VERA con premi TBD (~50 mins/tavolo)<br>[A rotazione, pausa 16 - 16:15 circa]<br>• Tavolo 1: Potenziamento Rete commerciale (Ally, CLTV)<br>• Tavolo 2: Eccellenza Tecnica (Imprese e Climate Change)<br>• Tavolo 3: Cloud e Data Marketplace</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 13 Giugno -->
+                    <div>
+                        <h3 style="color: #000; margin-bottom: 20px; font-size: 20px; font-weight: 600;">13 Giugno</h3>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">9:00 - 10:00</div>
+                            <div class="info-value">Business Time 2 (Perciballi, Natale)<br>• Business & Network Intelligence<br>• Platform, Data Governance & Quality</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">10:00 - 10:45</div>
+                            <div class="info-value">Tech Time (Paladini Frigerio Bencini)<br>• Reply Innovation Lab<br>• GenBelt Emerald</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">10:45 - 11:00</div>
+                            <div class="info-value">Sport Time: Visore & Fun</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">11:00 - 11:30</div>
+                            <div class="info-value">Pausa</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">11:30 - 12:00</div>
+                            <div class="info-value">AI Time (Frigerio, All)</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">12:00 - 12:30</div>
+                            <div class="info-value">Winner Time (con GenAI...)</div>
+                        </div>
+                        <div class="info-item" style="margin-bottom: 15px;">
+                            <div class="info-label">12:30 - 13:00</div>
+                            <div class="info-value">Chiusura</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Davide Consiglio - Personal Information</h2>
+            </div>
+            <div class="card-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Current Role</div>
+                        <div class="info-value">Country Data Officer at Generali Italia</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value">Milan, Lombardy, Italy</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Education</div>
+                        <div class="info-value">Masters Degree in Economics</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Daughter</div>
+                        <div class="info-value">Vittoria Consiglio (13 years old)</div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Years at BCG</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Years at Generali</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Professional Timeline</h2>
+            </div>
+            <div class="card-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">September 2022 - Present</div>
+                        <div class="timeline-title">Country Data Officer</div>
+                        <div class="timeline-desc">Generali Italia • Leading data and AI strategy initiatives across the Italian operations</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">October 2017 - September 2022</div>
+                        <div class="timeline-title">Head of Advanced Analytics</div>
+                        <div class="timeline-desc">Generali Italia • Built and led advanced analytics capabilities for insurance operations</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">2007 - 2017</div>
+                        <div class="timeline-title">Principal</div>
+                        <div class="timeline-desc">Boston Consulting Group (BCG Gamma) • 10 years in management consulting and advanced analytics</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">2004 - 2007</div>
+                        <div class="timeline-title">Data Science Consultant</div>
+                        <div class="timeline-desc">Value Lab • Early career in data science and quantitative analysis</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Expertise -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Core Expertise & Skills</h2>
+            </div>
+            <div class="card-content">
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #000;">Strategic & Leadership</h4>
+                    <span class="skill-tag">Data & AI Strategy</span>
+                    <span class="skill-tag">Strategic Planning</span>
+                    <span class="skill-tag">Management Consulting</span>
+                    <span class="skill-tag">Digital Transformation</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #000;">Technical & Analytics</h4>
+                    <span class="skill-tag">Advanced Analytics</span>
+                    <span class="skill-tag">Predictive Modeling</span>
+                    <span class="skill-tag">Data Mining</span>
+                    <span class="skill-tag">Statistics</span>
+                    <span class="skill-tag">Econometrics</span>
+                    <span class="skill-tag">Machine Learning</span>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #000;">Industry Focus</h4>
+                    <span class="skill-tag">Financial Services</span>
+                    <span class="skill-tag">Insurance</span>
+                    <span class="skill-tag">Risk Management</span>
+                    <span class="skill-tag">Financial Modeling</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Family Information -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Family</h2>
+            </div>
+            <div class="card-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Parents</div>
+                        <div class="info-value">
+                            Silvana D'Alessandro (born Chieti, Feb 18, 1954)<br>
+                            Salvatore Consiglio (born Siracusa, Jan 27, 1952)
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Sister</div>
+                        <div class="info-value">Sara Consiglio (born Chieti, Feb 6, 1985)</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Brother-in-law</div>
+                        <div class="info-value">Luigi Bocola (born Chieti, Mar 9, 1983)</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Niece</div>
+                        <div class="info-value">Nina Bocola (born Palo Alto, May 25, 2020)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Finance Overview -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Panoramica Spese Personali (2024-2025)</h2>
+            </div>
+            <div class="card-content">
+                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px; align-items: flex-start;">
+                    <div style="position: relative; height: 350px;">
+                        <canvas id="expensePieChart"></canvas>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 15px; color: #000;">Riepilogo Finanziario</h4>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; color: #666; font-size: 14px;">Spese Totali Annuali</div>
+                            <div style="font-size: 20px; font-weight: 700; color: #000;" id="totalExpensesSummary">€ 114.200</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; color: #666; font-size: 14px;">Media Mensile</div>
+                            <div style="font-size: 18px; font-weight: 600; color: #666;" id="avgMonthlySummary">€ 9.517</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #666; font-size: 14px;">Categoria Principale</div>
+                            <div style="font-size: 16px; font-weight: 600; color: #000;">Casa e Abitazione</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; font-size: 12px; color: #666; text-align: center;">
+                    Visualizzazione demo delle categorie di spesa principali (dati illustrativi)
+                </div>
+            </div>
+        </div>
+
+        <!-- Avatar Instructions -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Interactive Avatar Guidelines</h2>
+            </div>
+            <div class="card-content">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Communication Style</div>
+                        <div class="info-value">Professional yet approachable, confident, analytical mindset with strategic thinking</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Response Limits</div>
+                        <div class="info-value">Maximum 3 sentences, 50 words per sentence</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Focus Areas</div>
+                        <div class="info-value">Data strategy, AI implementation, financial services transformation, leadership insights</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Conversation Scope</div>
+                        <div class="info-value">Professional experience, industry insights, data/AI expertise, personal background when relevant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Sidebar with Avatar and Voice Widget -->
+    <div class="right-sidebar">
+        <!-- Avatar Section -->
+        <div class="avatar-section">
+        </div>
+        
+        <!-- Voice Widget Section -->
+        <div class="widget-section">
+            <div class="voice-widget" id="voiceWidget">
+                <div class="voice-widget-header" onclick="toggleVoiceWidget()">
+                    <div class="voice-widget-title">Voice recorder</div>
+                    <button class="voice-widget-toggle" id="toggleBtn">-</button>
+                </div>
+                <div class="voice-widget-content" id="voiceContent">
+                    <div class="browser-notice" id="browserNotice">
+                        Funziona meglio con Chrome/Edge
+                    </div>
+                    
+                    <div class="voice-controls">
+                        <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">Inizia</button>
+                        <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>Stop</button>
+                    </div>
+                    
+                    <textarea class="voice-text-area" id="transcriptArea" placeholder="Il testo riconosciuto apparirà qui..."></textarea>
+                    
+                    <div class="voice-actions">
+                        <button class="copy-btn" onclick="copyText()">Copia</button>
+                        <button class="clear-btn" onclick="clearText()">Cancella</button>
+                    </div>
+                    
+                    <div class="voice-status" id="statusDiv">
+                        Pronto per registrazione
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HeyGen Avatar Embed Script -->
+    <script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwMDk0OGZmZDMzMzQ0OTU0YjE0OWE1Zjlk%0D%0AZTJkNDVmMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzAwOTQ4ZmZkMzMzNDQ5NTRiMTQ5YTVmOWRlMmQ0NWYzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjE0%0D%0AOGQ4MTM1YmVmNzRlZmE4OTE4NzJlOTZlNmYzZGQ0IiwidXNlcm5hbWUiOiJkN2ZmZWEwNDRmZjc0%0D%0AYTBiYWExOGFkMWI0N2ViZDNmYSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    right: 40px;\n    top: 140px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
+
+    <!-- Voice Recognition JavaScript -->
+    <script>
+        let recognition;
+        let isListening = false;
+        let finalTranscript = '';
+        
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.lang = 'it-IT';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            
+            recognition.onstart = function() {
+                isListening = true;
+                updateUI();
+                updateStatus('- In ascolto...');
+            };
+            
+            recognition.onend = function() {
+                isListening = false;
+                updateUI();
+                updateStatus('- Registrazione terminata');
+            };
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let hasFinalResult = false;
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + ' ';
+                        hasFinalResult = true;
+                        updateStatus('- Testo riconosciuto');
+                    } else {
+                        interimTranscript += transcript;
+                        updateStatus('- Riconoscimento...');
+                    }
+                }
+                
+                const fullText = finalTranscript + interimTranscript;
+                document.getElementById('transcriptArea').value = fullText;
+                
+                // Auto-copy quando c'è un risultato finale (con delay per assicurare il completamento)
+                if (hasFinalResult && finalTranscript.trim()) {
+                    setTimeout(() => {
+                        autoCopyToClipboard(fullText.trim());
+                    }, 100);
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                updateStatus('- Errore: ' + getErrorMessage(event.error));
+                isListening = false;
+                updateUI();
+            };
+            
+            document.getElementById('browserNotice').style.display = 'none';
+        } else {
+            document.getElementById('browserNotice').innerHTML = 
+                '- Browser non supportato. Usa Chrome/Edge.';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+        }
+        
+        function requestMicAndStart() {
+            // Auto-clear della domanda precedente
+            clearText();
+            
+            // Prima richiedi esplicitamente l'accesso al microfono
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    // Fermalo subito, serve solo per ottenere il permesso
+                    stream.getTracks().forEach(track => track.stop());
+                    updateStatus('- Accesso concesso, avvio...');
+                    startListening();
+                })
+                .catch(function(err) {
+                    updateStatus('- Errore: Accesso microfono richiesto');
+                    console.error('Errore accesso microfono:', err);
+                    alert('Devi concedere l\'accesso al microfono per usare questa funzione.\n\nClicca sull\'icona del microfono nella barra degli indirizzi e seleziona "Consenti".');
+                });
+        }
+
+        function startListening() {
+            if (recognition && !isListening) {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    updateStatus('- Errore avvio microfono');
+                }
+            }
+        }
+        
+        function stopListening() {
+            if (recognition && isListening) {
+                recognition.stop();
+            }
+        }
+        
+        function updateUI() {
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            
+            if (isListening) {
+                startBtn.disabled = true;
+                startBtn.classList.add('recording');
+                stopBtn.disabled = false;
+            } else {
+                startBtn.disabled = false;
+                startBtn.classList.remove('recording');
+                stopBtn.disabled = true;
+            }
+        }
+        
+        function updateStatus(message) {
+            document.getElementById('statusDiv').textContent = message;
+        }
+        
+        function autoCopyToClipboard(text) {
+            console.log('Tentativo auto-copy:', text);
+            
+            // Metodo 1: Prova Clipboard API moderna
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    updateStatus('- AUTO-COPIATO! Pronto per Cmd+V');
+                    showAutoCopyFeedback();
+                    console.log('Auto-copy riuscito con Clipboard API');
+                }).catch((err) => {
+                    console.log('Clipboard API fallito:', err);
+                    fallbackCopy(text);
+                });
+            } else {
+                console.log('Clipboard API non disponibile, uso fallback');
+                fallbackCopy(text);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            console.log('Tentativo fallback copy');
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    updateStatus('- AUTO-COPIATO! Pronto per Cmd+V');
+                    showAutoCopyFeedback();
+                    console.log('Fallback copy riuscito');
+                } else {
+                    updateStatus('- Auto-copy fallito - usa bottone manuale');
+                    console.log('Fallback copy fallito');
+                }
+            } catch (err) {
+                updateStatus('- Auto-copy fallito - usa bottone manuale');
+                console.log('Errore fallback copy:', err);
+            }
+            document.body.removeChild(textArea);
+        }
+        
+        function showAutoCopyFeedback() {
+            const widget = document.getElementById('voiceWidget');
+            widget.style.backgroundColor = '#d4edda';
+            widget.style.borderColor = '#28a745';
+            
+            setTimeout(() => {
+                widget.style.backgroundColor = '#fff';
+                widget.style.borderColor = '#000';
+            }, 1500);
+        }
+
+        function copyText() {
+            const textArea = document.getElementById('transcriptArea');
+            textArea.select();
+            textArea.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                updateStatus('- Copiato! Incolla in HeyGen');
+                
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '- Copiato!';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            } catch (err) {
+                updateStatus('- Errore copia');
+            }
+        }
+        
+        function clearText() {
+            document.getElementById('transcriptArea').value = '';
+            finalTranscript = '';
+            updateStatus('- Cancellato');
+        }
+        
+        function toggleVoiceWidget() {
+            const widget = document.getElementById('voiceWidget');
+            const toggleBtn = document.getElementById('toggleBtn');
+            
+            widget.classList.toggle('minimized');
+            toggleBtn.textContent = widget.classList.contains('minimized') ? '+' : '-';
+        }
+        
+        function getErrorMessage(error) {
+            switch(error) {
+                case 'no-speech':
+                    return 'Nessuna voce rilevata';
+                case 'audio-capture':
+                    return 'Microfono non disponibile';
+                case 'not-allowed':
+                    return 'Accesso microfono negato';
+                case 'network':
+                    return 'Errore di rete';
+                default:
+                    return 'Errore: ' + error;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Pronto per registrazione');
+            
+            // Inizializza il grafico delle spese
+            initExpenseChart();
+        });
+        
+        function initExpenseChart() {
+            // Dati demo per visualizzazione (non dati reali)
+            const expenseData = {
+                'Casa e Abitazione': { amount: 36000, color: '#FF6384' },
+                'Famiglia e Figlia': { amount: 18000, color: '#36A2EB' },
+                'Investimenti': { amount: 24000, color: '#4BC0C0' },
+                'Mutuo': { amount: 15000, color: '#FFCE56' },
+                'Servizi Bancari': { amount: 8000, color: '#9966FF' },
+                'Trasporti': { amount: 4200, color: '#FF9F40' },
+                'Spese Personali': { amount: 6000, color: '#FF6B6B' },
+                'Utenze e Servizi': { amount: 3000, color: '#C9CBCF' }
+            };
+
+            // Prepara i dati per Chart.js
+            const categories = Object.keys(expenseData);
+            const amounts = Object.values(expenseData).map(cat => cat.amount);
+            const colors = Object.values(expenseData).map(cat => cat.color);
+
+            // Crea il grafico a torta
+            const ctx = document.getElementById('expensePieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: amounts,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = amounts.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: €${value.toLocaleString('it-IT')} (${percentage}%)`;
+                                }
+                            },
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 10
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+        
+        // Funzione per tornare alla homepage
+        function goBack() {
+            // Effetto di transizione elegante
+            document.body.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 800);
+        }
+    </script>
+
+</body>
+</html>
