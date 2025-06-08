@@ -38,6 +38,10 @@ build/
 private/
 confidential/
 personal/
+"documenti importanti/"
+documents/cv/
+backup/OneDrive*/
+foto casa/
 
 # 💳 Financial Data - NEVER commit
 Spese/
