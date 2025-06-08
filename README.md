@@ -4,7 +4,11 @@
 
 ## 🌟 **SITO WEB ATTIVO**
 
-🚀 **URL Live**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar)
+🚀 **URL Live Originale**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar)
+
+✨ **URL Enhanced (NEW!)**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html)
+
+📊 **URL Analisi Spese**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html)
 
 ## 🎙️ **VOICE ENHANCEMENT - CHECKPOINT ✅**
 
