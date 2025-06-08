@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Davide Consiglio - Interactive Avatar (Voice Simple)</title>
+    <meta name="description" content="Davide Consiglio - Country Data Officer, AI & Data Strategy Expert">
+    <link rel="icon" type="image/png" href="logo Emerald-03.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4aa, #00a3ff);
+        }
+        
+        .header-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .header-text p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .welcome-section .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        /* VOICE CONTROL - Ultra Simple */
+        .voice-simple {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        
+        .voice-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(79, 70, 229, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .voice-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(79, 70, 229, 0.4);
+        }
+        
+        .voice-button.listening {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .voice-status {
+            position: absolute;
+            top: 90px;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .voice-status.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* TRANSCRIPT DISPLAY */
+        .transcript-display {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .transcript-display.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .transcript-text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .transcript-text .final {
+            color: #10b981;
+        }
+        
+        .transcript-text .interim {
+            color: #fbbf24;
+            font-style: italic;
+        }
+        
+        /* COPY RESULT */
+        .copy-result {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .copy-result.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .copy-result.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        /* QUESTIONS LIST */
+        .questions-list {
+            position: fixed;
+            top: 200px;
+            right: 20px;
+            width: 350px;
+            max-height: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 9998;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .questions-list.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .questions-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .question-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #555;
+        }
+        
+        .question-number {
+            font-size: 11px;
+            color: #999;
+            font-weight: 600;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #3730a3, #5b21b6);
+            transform: scale(1.05);
+        }
+        
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        /* INFO CARDS */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .info-card p {
+            color: #555;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- VOICE CONTROL - Ultra Simple -->
+    <div class="voice-simple">
+        <button class="voice-button" id="voiceButton">🎤</button>
+        <div class="voice-status" id="voiceStatus">Clicca per parlare</div>
+    </div>
+    
+    <!-- TRANSCRIPT DISPLAY -->
+    <div class="transcript-display" id="transcriptDisplay">
+        <div class="transcript-text" id="transcriptText">In attesa di input vocale...</div>
+    </div>
+    
+    <!-- COPY RESULT -->
+    <div class="copy-result" id="copyResult">Testo copiato negli appunti!</div>
+    
+    <!-- QUESTIONS LIST -->
+    <div class="questions-list" id="questionsList">
+        <div class="questions-header">Domande Vocali</div>
+        <div id="questionsContainer">
+            <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
+                Nessuna domanda ancora
+            </div>
+        </div>
+    </div>
+    
+    <div class="header">
+        <div class="header-content">
+            <div class="logo"></div>
+            <div class="header-text">
+                <h1>Davide Consiglio</h1>
+                <p>Country Data Officer &amp; Data &amp; AI Strategy Expert</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="welcome-section">
+                <h2>Benvenuti all'offsite CDO 2025</h2>
+                <p class="subtitle">🎤 <strong>Voice Input Attivo</strong> → Clicca il microfono → Parla → Testo negli appunti → Incolla manualmente in HeyGen</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Current Role</h3>
+                    <p>Country Data Officer at Generali Italia</p>
+                </div>
+                <div class="info-card">
+                    <h3>Location</h3>
+                    <p>Milan, Lombardy, Italy</p>
+                </div>
+                <div class="info-card">
+                    <h3>Education</h3>
+                    <p>Masters Degree in Economics</p>
+                </div>
+                <div class="info-card">
+                    <h3>Family</h3>
+                    <p>Vittoria Consiglio (13 years old)</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">17+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Years at BCG</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Years at Generali</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SimpleVoiceInterface {
+            constructor() {
+                this.recognition = null;
+                this.isListening = false;
+                this.finalTranscript = '';
+                this.interimTranscript = '';
+                
+                // Questions storage
+                this.questions = [];
+                this.questionCounter = 0;
+                
+                this.voiceButton = document.getElementById('voiceButton');
+                this.voiceStatus = document.getElementById('voiceStatus');
+                this.transcriptDisplay = document.getElementById('transcriptDisplay');
+                this.transcriptText = document.getElementById('transcriptText');
+                this.copyResult = document.getElementById('copyResult');
+                this.questionsList = document.getElementById('questionsList');
+                this.questionsContainer = document.getElementById('questionsContainer');
+                
+                this.setupVoiceRecognition();
+                this.setupEventListeners();
+                
+                console.log('🎤 Simple Voice Interface initialized');
+            }
+            
+            setupVoiceRecognition() {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.recognition = new SpeechRecognition();
+                    
+                    this.recognition.continuous = true;
+                    this.recognition.interimResults = true;
+                    this.recognition.lang = 'it-IT';
+                    
+                    this.recognition.onstart = () => {
+                        this.isListening = true;
+                        this.updateUI('listening');
+                        this.showTranscript();
+                        console.log('🎤 Voice recognition started');
+                    };
+                    
+                    this.recognition.onresult = (event) => {
+                        this.interimTranscript = '';
+                        
+                        for (let i = event.resultIndex; i < event.results.length; i++) {
+                            const transcript = event.results[i][0].transcript;
+                            
+                            if (event.results[i].isFinal) {
+                                this.finalTranscript = transcript.trim();
+                                console.log('✅ Final transcript:', this.finalTranscript);
+                                
+                                // Add to questions list
+                                this.addQuestion(this.finalTranscript);
+                                
+                                // Auto-copy latest question
+                                this.copyToClipboard(this.finalTranscript);
+                            } else {
+                                this.interimTranscript += transcript;
+                            }
+                        }
+                        
+                        this.updateTranscriptDisplay();
+                    };
+                    
+                    this.recognition.onerror = (event) => {
+                        console.error('❌ Speech recognition error:', event.error);
+                        this.handleError(event.error);
+                    };
+                    
+                    this.recognition.onend = () => {
+                        this.isListening = false;
+                        this.updateUI('idle');
+                        console.log('🎤 Voice recognition ended');
+                        
+                        setTimeout(() => {
+                            this.hideTranscript();
+                        }, 3000);
+                    };
+                } else {
+                    console.log('❌ Speech recognition not supported');
+                    this.voiceStatus.textContent = 'Non supportato';
+                    this.voiceButton.style.opacity = '0.5';
+                }
+            }
+            
+            setupEventListeners() {
+                this.voiceButton.addEventListener('click', () => {
+                    if (this.recognition) {
+                        if (this.isListening) {
+                            this.stopListening();
+                        } else {
+                            this.startListening();
+                        }
+                    }
+                });
+            }
+            
+            startListening() {
+                if (!this.recognition || this.isListening) return;
+                
+                try {
+                    this.finalTranscript = '';
+                    this.interimTranscript = '';
+                    this.recognition.start();
+                } catch (error) {
+                    console.error('❌ Error starting voice recognition:', error);
+                    this.handleError('start-failed');
+                }
+            }
+            
+            stopListening() {
+                if (this.recognition && this.isListening) {
+                    this.recognition.stop();
+                }
+            }
+            
+            updateUI(state) {
+                switch(state) {
+                    case 'listening':
+                        this.voiceButton.textContent = '🔴';
+                        this.voiceButton.classList.add('listening');
+                        this.voiceStatus.textContent = 'In ascolto...';
+                        this.voiceStatus.classList.add('show');
+                        break;
+                    case 'idle':
+                    default:
+                        this.voiceButton.textContent = '🎤';
+                        this.voiceButton.classList.remove('listening');
+                        this.voiceStatus.textContent = 'Clicca per parlare';
+                        setTimeout(() => {
+                            this.voiceStatus.classList.remove('show');
+                        }, 2000);
+                        break;
+                }
+            }
+            
+            updateTranscriptDisplay() {
+                let html = '';
+                
+                if (this.finalTranscript) {
+                    html += `<span class="final">${this.finalTranscript}</span>`;
+                }
+                
+                if (this.interimTranscript) {
+                    html += `<span class="interim">${this.interimTranscript}</span>`;
+                }
+                
+                this.transcriptText.innerHTML = html || 'In attesa di input vocale...';
+            }
+            
+            showTranscript() {
+                this.transcriptDisplay.classList.add('show');
+            }
+            
+            hideTranscript() {
+                this.transcriptDisplay.classList.remove('show');
+            }
+            
+            async copyToClipboard(text) {
+                if (!text || text.trim() === '') {
+                    console.log('⚠️ No text to copy');
+                    return;
+                }
+                
+                console.log('📋 Attempting to copy:', text);
+                
+                // Try modern clipboard API first
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        console.log('✅ Copied with modern API');
+                        this.showCopyResult('Copiato negli appunti!', 'success');
+                        return;
+                    } catch (error) {
+                        console.log('❌ Modern API failed:', error);
+                    }
+                }
+                
+                // Fallback to legacy method
+                try {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    if (successful) {
+                        console.log('✅ Copied with legacy method');
+                        this.showCopyResult('Copiato negli appunti!', 'success');
+                    } else {
+                        throw new Error('Legacy copy failed');
+                    }
+                } catch (error) {
+                    console.error('❌ All copy methods failed:', error);
+                    this.showCopyResult(`Copia manuale: "${text}"`, 'error');
+                    
+                    // Show text for manual copy
+                    alert(`Copia questo testo manualmente:\n\n${text}`);
+                }
+            }
+            
+            showCopyResult(message, type) {
+                this.copyResult.textContent = message;
+                this.copyResult.className = `copy-result ${type}`;
+                this.copyResult.classList.add('show');
+                
+                setTimeout(() => {
+                    this.copyResult.classList.remove('show');
+                }, 3000);
+            }
+            
+            addQuestion(text) {
+                if (!text || text.trim() === '') return;
+                
+                this.questionCounter++;
+                const question = {
+                    id: this.questionCounter,
+                    text: text.trim(),
+                    timestamp: new Date().toLocaleTimeString()
+                };
+                
+                this.questions.push(question);
+                
+                // Keep only last 5 questions
+                if (this.questions.length > 5) {
+                    this.questions = this.questions.slice(-5);
+                }
+                
+                console.log(`📝 Added question #${question.id}:`, question.text);
+                this.updateQuestionsList();
+                this.showQuestionsList();
+            }
+            
+            updateQuestionsList() {
+                if (this.questions.length === 0) {
+                    this.questionsContainer.innerHTML = `
+                        <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
+                            Nessuna domanda ancora
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const html = this.questions
+                    .slice(-5) // Show last 5
+                    .reverse() // Latest first
+                    .map(q => `
+                        <div class="question-item">
+                            <div class="question-number">#${q.id}</div>
+                            <div class="question-text">${q.text}</div>
+                            <button class="copy-btn" onclick="window.voiceInterface.copyQuestion(${q.id})">
+                                Copy
+                            </button>
+                        </div>
+                    `).join('');
+                
+                this.questionsContainer.innerHTML = html;
+            }
+            
+            showQuestionsList() {
+                this.questionsList.classList.add('show');
+                
+                // Hide after 10 seconds
+                setTimeout(() => {
+                    this.questionsList.classList.remove('show');
+                }, 10000);
+            }
+            
+            async copyQuestion(questionId) {
+                const question = this.questions.find(q => q.id === questionId);
+                if (!question) {
+                    console.log('❌ Question not found:', questionId);
+                    return;
+                }
+                
+                console.log(`📋 Copying question #${questionId}:`, question.text);
+                
+                try {
+                    // Try modern clipboard API first
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(question.text);
+                    } else {
+                        // Fallback to legacy method
+                        const textArea = document.createElement('textarea');
+                        textArea.value = question.text;
+                        textArea.style.position = 'fixed';
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        
+                        if (!successful) {
+                            throw new Error('Legacy copy failed');
+                        }
+                    }
+                    
+                    // Update button visual feedback
+                    const button = event.target;
+                    const originalText = button.textContent;
+                    button.textContent = '✓';
+                    button.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                    
+                    this.showCopyResult(`Domanda #${questionId} copiata!`, 'success');
+                    
+                } catch (error) {
+                    console.error('❌ Failed to copy question:', error);
+                    alert(`Copia questo testo manualmente:\n\n${question.text}`);
+                }
+            }
+            
+            handleError(error) {
+                let errorMessage = 'Errore vocale';
+                
+                switch(error) {
+                    case 'not-allowed':
+                        errorMessage = 'Permessi negati';
+                        break;
+                    case 'no-speech':
+                        errorMessage = 'Nessun audio';
+                        break;
+                    case 'audio-capture':
+                        errorMessage = 'Errore microfono';
+                        break;
+                    case 'network':
+                        errorMessage = 'Errore rete';
+                        break;
+                    default:
+                        errorMessage = 'Errore sconosciuto';
+                }
+                
+                this.voiceStatus.textContent = errorMessage;
+                this.updateUI('idle');
+                
+                setTimeout(() => {
+                    this.voiceStatus.textContent = 'Clicca per parlare';
+                }, 3000);
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.voiceInterface = new SimpleVoiceInterface();
+        });
+    </script>
+
+    <!-- HeyGen Avatar Embed Script -->
+    <script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwMDk0OGZmZDMzMzQ0OTU0YjE0OWE1Zjlk%0D%0AZTJkNDVmMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzAwOTQ4ZmZkMzMzNDQ5NTRiMTQ5YTVmOWRlMmQ0NWYzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjE0%0D%0AOGQ4MTM1YmVmNzRlZmE4OTE4NzJlOTZlNmYzZGQ0IiwidXNlcm5hbWUiOiJkN2ZmZWEwNDRmZjc0%0D%0AYTBiYWExOGFkMWI0N2ViZDNmYSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    right: 40px;\n    top: 200px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
+
+</body>
+</html> 

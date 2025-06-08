@@ -255,6 +255,173 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
+        /* VOICE WIDGET - ADDED */
+        .voice-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 280px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 9998;
+            border: 2px solid #000;
+            overflow: hidden;
+        }
+        
+        .voice-widget-header {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .voice-widget-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .voice-widget-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .voice-widget-content {
+            padding: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .voice-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #000;
+            background: #fff;
+            color: #000;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .voice-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+        
+        .voice-btn.recording {
+            background: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .voice-text-area {
+            width: 100%;
+            min-height: 80px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            line-height: 1.4;
+            resize: vertical;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        
+        .voice-text-area:focus {
+            outline: none;
+            border-color: #000;
+        }
+        
+        .voice-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .copy-btn {
+            flex: 1;
+            padding: 10px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .clear-btn {
+            flex: 1;
+            padding: 10px;
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .voice-status {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .voice-widget.minimized .voice-widget-content {
+            display: none;
+        }
+        
+        .voice-widget.minimized {
+            width: 160px;
+        }
+        
+        .browser-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
         
         @media (max-width: 768px) {
             .header-content {
@@ -291,6 +458,16 @@
             
             .timeline-item::before {
                 left: 12px;
+            }
+            
+            .voice-widget {
+                width: calc(100vw - 40px);
+                right: 20px;
+                left: 20px;
+            }
+            
+            .voice-widget.minimized {
+                width: calc(100vw - 40px);
             }
         }
     </style>
@@ -495,8 +672,202 @@
         </div>
     </div>
 
+    <!-- Voice Widget -->
+    <div class="voice-widget" id="voiceWidget">
+        <div class="voice-widget-header" onclick="toggleVoiceWidget()">
+            <div class="voice-widget-title">- Voice-to-Text</div>
+            <button class="voice-widget-toggle" id="toggleBtn">-</button>
+        </div>
+        <div class="voice-widget-content" id="voiceContent">
+            <div class="browser-notice" id="browserNotice">
+                Funziona meglio con Chrome/Edge
+            </div>
+            
+            <div class="voice-controls">
+                <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">- Inizia</button>
+                <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>- Stop</button>
+            </div>
+            
+            <textarea class="voice-text-area" id="transcriptArea" placeholder="Il testo riconosciuto apparirà qui..."></textarea>
+            
+            <div class="voice-actions">
+                <button class="copy-btn" onclick="copyText()">- Copia</button>
+                <button class="clear-btn" onclick="clearText()">- Cancella</button>
+            </div>
+            
+            <div class="voice-status" id="statusDiv">
+                Pronto per registrazione
+            </div>
+        </div>
+    </div>
+
     <!-- HeyGen Avatar Embed Script -->
     <script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwMDk0OGZmZDMzMzQ0OTU0YjE0OWE1Zjlk%0D%0AZTJkNDVmMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzAwOTQ4ZmZkMzMzNDQ5NTRiMTQ5YTVmOWRlMmQ0NWYzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjE0%0D%0AOGQ4MTM1YmVmNzRlZmE4OTE4NzJlOTZlNmYzZGQ0IiwidXNlcm5hbWUiOiJkN2ZmZWEwNDRmZjc0%0D%0AYTBiYWExOGFkMWI0N2ViZDNmYSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    right: 40px;\n    top: 120px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
+
+    <!-- Voice Recognition JavaScript -->
+    <script>
+        let recognition;
+        let isListening = false;
+        let finalTranscript = '';
+        
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.lang = 'it-IT';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            
+            recognition.onstart = function() {
+                isListening = true;
+                updateUI();
+                updateStatus('- In ascolto...');
+            };
+            
+            recognition.onend = function() {
+                isListening = false;
+                updateUI();
+                updateStatus('- Registrazione terminata');
+            };
+            
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + ' ';
+                        updateStatus('- Testo pronto - copia nella chat');
+                    } else {
+                        interimTranscript += transcript;
+                        updateStatus('- Riconoscimento...');
+                    }
+                }
+                
+                document.getElementById('transcriptArea').value = finalTranscript + interimTranscript;
+            };
+            
+            recognition.onerror = function(event) {
+                updateStatus('- Errore: ' + getErrorMessage(event.error));
+                isListening = false;
+                updateUI();
+            };
+            
+            document.getElementById('browserNotice').style.display = 'none';
+        } else {
+            document.getElementById('browserNotice').innerHTML = 
+                '- Browser non supportato. Usa Chrome/Edge.';
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+        }
+        
+        function requestMicAndStart() {
+            // Prima richiedi esplicitamente l'accesso al microfono
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    // Fermalo subito, serve solo per ottenere il permesso
+                    stream.getTracks().forEach(track => track.stop());
+                    updateStatus('- Accesso concesso, avvio...');
+                    startListening();
+                })
+                .catch(function(err) {
+                    updateStatus('- Errore: Accesso microfono richiesto');
+                    console.error('Errore accesso microfono:', err);
+                    alert('Devi concedere l\'accesso al microfono per usare questa funzione.\n\nClicca sull\'icona del microfono nella barra degli indirizzi e seleziona "Consenti".');
+                });
+        }
+
+        function startListening() {
+            if (recognition && !isListening) {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    updateStatus('- Errore avvio microfono');
+                }
+            }
+        }
+        
+        function stopListening() {
+            if (recognition && isListening) {
+                recognition.stop();
+            }
+        }
+        
+        function updateUI() {
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            
+            if (isListening) {
+                startBtn.disabled = true;
+                startBtn.classList.add('recording');
+                stopBtn.disabled = false;
+            } else {
+                startBtn.disabled = false;
+                startBtn.classList.remove('recording');
+                stopBtn.disabled = true;
+            }
+        }
+        
+        function updateStatus(message) {
+            document.getElementById('statusDiv').textContent = message;
+        }
+        
+        function copyText() {
+            const textArea = document.getElementById('transcriptArea');
+            textArea.select();
+            textArea.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                updateStatus('- Copiato! Incolla in HeyGen');
+                
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '- Copiato!';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            } catch (err) {
+                updateStatus('- Errore copia');
+            }
+        }
+        
+        function clearText() {
+            document.getElementById('transcriptArea').value = '';
+            finalTranscript = '';
+            updateStatus('- Cancellato');
+        }
+        
+        function toggleVoiceWidget() {
+            const widget = document.getElementById('voiceWidget');
+            const toggleBtn = document.getElementById('toggleBtn');
+            
+            widget.classList.toggle('minimized');
+            toggleBtn.textContent = widget.classList.contains('minimized') ? '+' : '-';
+        }
+        
+        function getErrorMessage(error) {
+            switch(error) {
+                case 'no-speech':
+                    return 'Nessuna voce rilevata';
+                case 'audio-capture':
+                    return 'Microfono non disponibile';
+                case 'not-allowed':
+                    return 'Accesso microfono negato';
+                case 'network':
+                    return 'Errore di rete';
+                default:
+                    return 'Errore: ' + error;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Pronto per registrazione');
+        });
+    </script>
 
 </body>
 </html>
