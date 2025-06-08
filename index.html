@@ -204,7 +204,7 @@
 
         .enter-button {
             background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: none;
             color: #ffffff;
             padding: 15px 40px;
             font-size: 1rem;
@@ -220,7 +220,6 @@
 
         .enter-button:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
@@ -419,13 +418,13 @@
     <!-- Quote handwritten in alto a sinistra -->
     <div class="quote-top">
         <div class="quote-text">"Emerald is like Tango..."</div>
-        <div class="quote-author">(D. Consiglio, 2018)</div>
+        <div class="quote-author">(D. Consiglio)</div>
     </div>
 
     <!-- Quote handwritten in basso a destra -->
     <div class="quote-bottom">
-        <div class="quote-text">"...perchè quello migliore è quello illegal"</div>
-        <div class="quote-author">(S. Frigerio, un minuto dopo)</div>
+        <div class="quote-text">"... quello migliore è quello illegal"</div>
+        <div class="quote-author">(S. Frigerio)</div>
     </div>
 
     <!-- Video background -->
@@ -444,15 +443,11 @@
     <!-- Container principale -->
     <div class="main-container">
         <div class="brand-container" onclick="enterExperience()">            
-            <!-- Event Title -->
-            <p class="tagline fade-in-up">Offsite CDO 2025 - Grezzana</p>
-            
             <!-- Call to Action -->
             <div class="cta-section fade-in-up">
                 <button class="enter-button" onclick="enterExperience()">
                     ENTRA
                 </button>
-                <p class="enter-hint">Premi per accedere al profilo interattivo</p>
             </div>
         </div>
     </div>
