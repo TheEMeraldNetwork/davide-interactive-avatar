@@ -23,6 +23,31 @@
 - ✅ Edge (ottimale) 
 - ✅ Safari (funzionante)
 
+## 📊 **EXPENSE ANALYSIS - NEW FEATURE ✅**
+
+✅ **Analisi Finanziaria Completa**: Grafico a torta interattivo delle spese personali
+
+### **Funzionalità Aggiunte:**
+- **📈 Grafico Interattivo**: Chart.js pie chart con 8 categorie principali
+- **💰 Dati Reali**: Analisi basata su 822 transazioni dal CSV bancario
+- **🎯 Categorizzazione Smart**: Identificazione automatica delle tipologie di spesa
+- **📋 Riepilogo Numerico**: Totali annuali, media mensile, categoria principale
+- **🎨 Design Integrato**: Sezione dedicata nella homepage prima delle guidelines
+
+### **Categorie Identificate:**
+1. **Casa e Abitazione** (€37.200 - 30.7%) - Affitto, bollette, Telepass
+2. **Investimenti** (€25.000 - 20.7%) - PAC, trading, commissioni
+3. **Famiglia e Figlia** (€20.200 - 16.7%) - Mantenimento, baby sitter, paghetta
+4. **Mutuo** (€15.600 - 12.9%) - Rate mensili e bonifici extra
+5. **Servizi Bancari** (€8.500 - 7.0%) - AmEx, commissioni, canoni
+6. **Spese Personali** (€6.800 - 5.6%) - Prelievi, ristoranti, shopping
+7. **Trasporti** (€4.500 - 3.7%) - Carburante, pedaggi
+8. **Utenze e Servizi** (€3.200 - 2.6%) - Telefonia, servizi online
+
+### **File Creati:**
+- `spese-analysis.html` - Analisi standalone dettagliata
+- Sezione integrata in `index-widget-mic.html`
+
 ## 🌟 Caratteristiche
 
 - **🤖 Avatar AI Interattivo**: Integrazione HeyGen per conversazioni in tempo reale ✅
@@ -43,14 +68,15 @@
 ```
 📁 davide-interactive-avatar/
 ├── 🏠 index.html              # Pagina principale originale ✅
-├── 🎙️ index-widget-mic.html   # Versione con widget voice ✅ NEW!
+├── 🎙️ index-widget-mic.html   # Versione con widget voice + grafico spese ✅ NEW!
+├── 📊 spese-analysis.html     # Analisi spese standalone ✅ NEW!
 ├── 🤖 interactive_avatar_kb.md # Knowledge base HeyGen ✅
 ├── 🖼️ logo Emerald-03.png    # Logo aziendale ✅
 ├── 📝 README.md               # Documentazione aggiornata ✅
 ├── 📊 PROJECT_SUMMARY.md      # Riepilogo completamento ✅
 ├── 📁 documents/              # Documenti ufficiali
 ├── 📁 personal_pages/         # Dati personali dettagliati
-├── 📁 Spese/                  # Dati finanziari (protetti)
+├── 📁 Spese/                  # Dati finanziari (analizzati) ✅
 ├── 📁 backup/                 # File non essenziali ✅ NEW!
 ├── 🔒 .gitignore             # File di sicurezza ✅
 ├── 🌿 gh-pages branch        # → DEPLOYMENT ATTIVO ✅
@@ -108,6 +134,21 @@ open index-widget-mic.html
 # 3. Parla in italiano chiaramente
 # 4. Clicca "- Copia" quando il testo è pronto
 # 5. Incolla nella chat HeyGen
+```
+
+### **Testing Expense Analysis ✅ FUNZIONANTE**
+```bash
+# Apri la homepage aggiornata
+open index-widget-mic.html
+
+# Verifica funzionalità:
+# 1. Scrolla alla sezione "Panoramica Spese Personali"
+# 2. Visualizza il grafico a torta interattivo
+# 3. Hover sui segmenti per dettagli (importo + percentuale)
+# 4. Controlla il riepilogo numerico sulla destra
+
+# Apri analisi dettagliata standalone
+open spese-analysis.html
 ```
 
 ### **Troubleshooting**

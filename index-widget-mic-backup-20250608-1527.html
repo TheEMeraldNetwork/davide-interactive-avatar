@@ -4,7 +4,6 @@
     <title>Davide Consiglio - Interactive Avatar Profile</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <style>
         :root {
@@ -33,47 +32,6 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-            padding-right: 320px; /* Space for right sidebar */
-        }
-        
-        .right-sidebar {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100vh;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 1px solid #ddd;
-            z-index: 9997;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 0;
-        }
-        
-        .avatar-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .avatar-label {
-            font-weight: 600;
-            color: #000;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .widget-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
             padding: 20px;
         }
         
@@ -298,13 +256,16 @@
             letter-spacing: 0.5px;
         }
 
-        /* VOICE WIDGET - UPDATED FOR SIDEBAR */
+        /* VOICE WIDGET - ADDED */
         .voice-widget {
-            position: relative;
-            width: 100%;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 280px;
             background: #fff;
             border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 9998;
             border: 2px solid #000;
             overflow: hidden;
         }
@@ -449,7 +410,7 @@
         }
         
         .voice-widget.minimized {
-            width: 100%;
+            width: 160px;
         }
         
         .browser-notice {
@@ -460,16 +421,6 @@
             border-radius: 4px;
             font-size: 12px;
             margin-bottom: 15px;
-        }
-        
-        @media (max-width: 1200px) {
-            .container {
-                padding-right: 20px;
-            }
-            
-            .right-sidebar {
-                display: none;
-            }
         }
         
         @media (max-width: 768px) {
@@ -508,14 +459,28 @@
             .timeline-item::before {
                 left: 12px;
             }
+            
+            .voice-widget {
+                width: calc(100vw - 40px);
+                right: 20px;
+                left: 20px;
+            }
+            
+            .voice-widget.minimized {
+                width: calc(100vw - 40px);
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="header-content">
-            <div style="display: flex; align-items: center; padding-left: 20px;">
-                <img src="logo Emerald-03.png" alt="Emerald Logo" style="width: 100px; height: 100px; object-fit: contain;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <img src="logo Emerald-03.png" alt="Emerald Logo" style="width: 60px; height: 60px; object-fit: contain;">
+                <div>
+                    <h1 class="header-title">Davide Consiglio</h1>
+                    <div class="header-subtitle">Country Data Officer • Data & AI Strategy Expert</div>
+                </div>
             </div>
             <div class="header-controls">
                 <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; color: #fff; font-size: 12px; border-radius: 20px; margin-right: 15px; backdrop-filter: blur(5px);">
@@ -542,7 +507,7 @@
         <!-- Personal Information -->
         <div class="card">
             <div class="card-header">
-                <h2 class="card-title">Davide Consiglio - Personal Information</h2>
+                <h2 class="card-title">Personal Information</h2>
             </div>
             <div class="card-content">
                 <div class="info-grid">
@@ -679,38 +644,6 @@
             </div>
         </div>
 
-        <!-- Personal Finance Overview -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Panoramica Spese Personali (2024-2025)</h2>
-            </div>
-            <div class="card-content">
-                <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px; align-items: flex-start;">
-                    <div style="position: relative; height: 350px;">
-                        <canvas id="expensePieChart"></canvas>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 15px; color: #000;">Riepilogo Finanziario</h4>
-                        <div style="margin-bottom: 15px;">
-                            <div style="font-weight: 600; color: #666; font-size: 14px;">Spese Totali Annuali</div>
-                            <div style="font-size: 20px; font-weight: 700; color: #000;" id="totalExpensesSummary">€ 121.000</div>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <div style="font-weight: 600; color: #666; font-size: 14px;">Media Mensile</div>
-                            <div style="font-size: 18px; font-weight: 600; color: #666;" id="avgMonthlySummary">€ 10.083</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600; color: #666; font-size: 14px;">Categoria Principale</div>
-                            <div style="font-size: 16px; font-weight: 600; color: #000;">Casa e Abitazione</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 20px; font-size: 12px; color: #666; text-align: center;">
-                    Analisi basata sui movimenti bancari del periodo giugno 2024 - giugno 2025
-                </div>
-            </div>
-        </div>
-
         <!-- Avatar Instructions -->
         <div class="card">
             <div class="card-header">
@@ -739,42 +672,31 @@
         </div>
     </div>
 
-    <!-- Right Sidebar with Avatar and Voice Widget -->
-    <div class="right-sidebar">
-        <!-- Avatar Section -->
-        <div class="avatar-section">
-            <div class="avatar-label">Chiedi a Davide</div>
-            <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 10px;">Clicca sull'avatar quando appare per iniziare la conversazione</div>
+    <!-- Voice Widget -->
+    <div class="voice-widget" id="voiceWidget">
+        <div class="voice-widget-header" onclick="toggleVoiceWidget()">
+            <div class="voice-widget-title">- Voice-to-Text</div>
+            <button class="voice-widget-toggle" id="toggleBtn">-</button>
         </div>
-        
-        <!-- Voice Widget Section -->
-        <div class="widget-section">
-            <div class="voice-widget" id="voiceWidget">
-                <div class="voice-widget-header" onclick="toggleVoiceWidget()">
-                    <div class="voice-widget-title">- Voice-to-Text + Auto-Copy</div>
-                    <button class="voice-widget-toggle" id="toggleBtn">-</button>
-                </div>
-                <div class="voice-widget-content" id="voiceContent">
-                    <div class="browser-notice" id="browserNotice">
-                        Funziona meglio con Chrome/Edge
-                    </div>
-                    
-                    <div class="voice-controls">
-                        <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">- Inizia</button>
-                        <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>- Stop</button>
-                    </div>
-                    
-                    <textarea class="voice-text-area" id="transcriptArea" placeholder="Il testo riconosciuto apparirà qui..."></textarea>
-                    
-                    <div class="voice-actions">
-                        <button class="copy-btn" onclick="copyText()">- Copia</button>
-                        <button class="clear-btn" onclick="clearText()">- Cancella</button>
-                    </div>
-                    
-                    <div class="voice-status" id="statusDiv">
-                        Pronto per registrazione
-                    </div>
-                </div>
+        <div class="voice-widget-content" id="voiceContent">
+            <div class="browser-notice" id="browserNotice">
+                Funziona meglio con Chrome/Edge
+            </div>
+            
+            <div class="voice-controls">
+                <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">- Inizia</button>
+                <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>- Stop</button>
+            </div>
+            
+            <textarea class="voice-text-area" id="transcriptArea" placeholder="Il testo riconosciuto apparirà qui..."></textarea>
+            
+            <div class="voice-actions">
+                <button class="copy-btn" onclick="copyText()">- Copia</button>
+                <button class="clear-btn" onclick="clearText()">- Cancella</button>
+            </div>
+            
+            <div class="voice-status" id="statusDiv">
+                Pronto per registrazione
             </div>
         </div>
     </div>
@@ -811,30 +733,20 @@
             
             recognition.onresult = function(event) {
                 let interimTranscript = '';
-                let hasFinalResult = false;
                 
                 for (let i = event.resultIndex; i < event.results.length; i++) {
                     const transcript = event.results[i][0].transcript;
                     
                     if (event.results[i].isFinal) {
                         finalTranscript += transcript + ' ';
-                        hasFinalResult = true;
-                        updateStatus('- Testo riconosciuto');
+                        updateStatus('- Testo pronto - copia nella chat');
                     } else {
                         interimTranscript += transcript;
                         updateStatus('- Riconoscimento...');
                     }
                 }
                 
-                const fullText = finalTranscript + interimTranscript;
-                document.getElementById('transcriptArea').value = fullText;
-                
-                // Auto-copy quando c'è un risultato finale (con delay per assicurare il completamento)
-                if (hasFinalResult && finalTranscript.trim()) {
-                    setTimeout(() => {
-                        autoCopyToClipboard(fullText.trim());
-                    }, 100);
-                }
+                document.getElementById('transcriptArea').value = finalTranscript + interimTranscript;
             };
             
             recognition.onerror = function(event) {
@@ -852,9 +764,6 @@
         }
         
         function requestMicAndStart() {
-            // Auto-clear della domanda precedente
-            clearText();
-            
             // Prima richiedi esplicitamente l'accesso al microfono
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(function(stream) {
@@ -905,64 +814,6 @@
             document.getElementById('statusDiv').textContent = message;
         }
         
-        function autoCopyToClipboard(text) {
-            console.log('Tentativo auto-copy:', text);
-            
-            // Metodo 1: Prova Clipboard API moderna
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    updateStatus('- AUTO-COPIATO! Pronto per Cmd+V');
-                    showAutoCopyFeedback();
-                    console.log('Auto-copy riuscito con Clipboard API');
-                }).catch((err) => {
-                    console.log('Clipboard API fallito:', err);
-                    fallbackCopy(text);
-                });
-            } else {
-                console.log('Clipboard API non disponibile, uso fallback');
-                fallbackCopy(text);
-            }
-        }
-        
-        function fallbackCopy(text) {
-            console.log('Tentativo fallback copy');
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    updateStatus('- AUTO-COPIATO! Pronto per Cmd+V');
-                    showAutoCopyFeedback();
-                    console.log('Fallback copy riuscito');
-                } else {
-                    updateStatus('- Auto-copy fallito - usa bottone manuale');
-                    console.log('Fallback copy fallito');
-                }
-            } catch (err) {
-                updateStatus('- Auto-copy fallito - usa bottone manuale');
-                console.log('Errore fallback copy:', err);
-            }
-            document.body.removeChild(textArea);
-        }
-        
-        function showAutoCopyFeedback() {
-            const widget = document.getElementById('voiceWidget');
-            widget.style.backgroundColor = '#d4edda';
-            widget.style.borderColor = '#28a745';
-            
-            setTimeout(() => {
-                widget.style.backgroundColor = '#fff';
-                widget.style.borderColor = '#000';
-            }, 1500);
-        }
-
         function copyText() {
             const textArea = document.getElementById('transcriptArea');
             textArea.select();
@@ -1015,77 +866,7 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             updateStatus('Pronto per registrazione');
-            
-            // Inizializza il grafico delle spese
-            initExpenseChart();
         });
-        
-        function initExpenseChart() {
-            // Dati delle spese principali basati sull'analisi CSV
-            const expenseData = {
-                'Casa e Abitazione': { amount: 37200, color: '#FF6384' },
-                'Famiglia e Figlia': { amount: 20200, color: '#36A2EB' },
-                'Investimenti': { amount: 25000, color: '#4BC0C0' },
-                'Mutuo': { amount: 15600, color: '#FFCE56' },
-                'Servizi Bancari': { amount: 8500, color: '#9966FF' },
-                'Trasporti': { amount: 4500, color: '#FF9F40' },
-                'Spese Personali': { amount: 6800, color: '#FF6B6B' },
-                'Utenze e Servizi': { amount: 3200, color: '#C9CBCF' }
-            };
-
-            // Prepara i dati per Chart.js
-            const categories = Object.keys(expenseData);
-            const amounts = Object.values(expenseData).map(cat => cat.amount);
-            const colors = Object.values(expenseData).map(cat => cat.color);
-
-            // Crea il grafico a torta
-            const ctx = document.getElementById('expensePieChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: categories,
-                    datasets: [{
-                        data: amounts,
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                padding: 15,
-                                font: { size: 12 }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed;
-                                    const total = amounts.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: €${value.toLocaleString('it-IT')} (${percentage}%)`;
-                                }
-                            },
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            titleFont: { size: 14, weight: 'bold' },
-                            bodyFont: { size: 12 },
-                            padding: 10
-                        }
-                    },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
-            });
-        }
     </script>
 
 </body>
