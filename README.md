@@ -4,11 +4,13 @@
 
 ## 🌟 **SITO WEB ATTIVO**
 
-🚀 **URL Master (UPDATED!)**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar) - Layout Porsche-inspired ottimizzato
+🚀 **URL Master**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar)  
+→ Layout Porsche-inspired ottimizzato con voice recorder e analisi spese integrate
 
-✨ **URL Enhanced**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html) - Stesso contenuto del master
-
-📊 **URL Analisi Spese**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html)
+📊 **Funzionalità Integrate**: 
+- 🎙️ Voice recorder per conversazioni HeyGen  
+- 📈 Grafico spese interattivo nella homepage  
+- 🤖 Avatar AI pronto per demo offsite CDO
 
 ## 📝 **VERSION JOURNAL**
 
@@ -78,24 +80,35 @@
 - **Design**: Responsive CSS Grid, Modern UI/UX
 - **Sicurezza**: No API keys committed, secure configuration
 
-## 📋 Struttura Progetto (WORKING)
+## 📋 Struttura Progetto (CLEAN & ORGANIZED)
 
 ```
 📁 davide-interactive-avatar/
-├── 🏠 index.html              # Pagina principale originale ✅
-├── 🎙️ index-widget-mic.html   # Versione con widget voice + grafico spese ✅ NEW!
-├── 📊 spese-analysis.html     # Analisi spese standalone ✅ NEW!
+├── 🚀 index.html              # MASTER - All-in-one optimized site ✅
 ├── 🤖 interactive_avatar_kb.md # Knowledge base HeyGen ✅
 ├── 🖼️ logo Emerald-03.png    # Logo aziendale ✅
-├── 📝 README.md               # Documentazione aggiornata ✅
+├── 📝 README.md               # Documentazione completa ✅
 ├── 📊 PROJECT_SUMMARY.md      # Riepilogo completamento ✅
+├── 🔒 .gitignore             # File di sicurezza ✅
+├── 🔒 .nojekyll              # GitHub Pages routing ✅
+│
+├── 📁 backup/                 # Tutte le versioni di sviluppo e backup
+│   ├── index-v7giugno.html   # Backup versione precedente
+│   ├── index-enhanced.html   # Versione enhanced
+│   ├── index-widget-mic.html # Versione di sviluppo
+│   ├── spese-analysis.html   # Analisi spese standalone
+│   ├── index-widget-mic-backup-*.html # Backup timestampati
+│   └── [altri file HTML di sviluppo...]
+│
 ├── 📁 documents/              # Documenti ufficiali
 ├── 📁 personal_pages/         # Dati personali dettagliati
-├── 📁 Spese/                  # Dati finanziari (analizzati) ✅
-├── 📁 backup/                 # File non essenziali ✅ NEW!
-├── 🔒 .gitignore             # File di sicurezza ✅
-├── 🌿 gh-pages branch        # → DEPLOYMENT ATTIVO ✅
-└── 🚀 main branch            # → Development & docs ✅
+├── 📁 Spese/                  # Dati finanziari (demo data) ✅
+├── 📁 foto casa/              # Risorse multimediali
+├── 📁 .github/                # Configurazioni GitHub
+├── 📁 documenti importanti/   # Documenti riservati
+│
+├── 🌿 gh-pages branch        # → DEPLOYMENT LIVE ✅
+└── 🚀 feature branches       # → Development attivo ✅
 ```
 
 ## 🔄 Deployment Method (WORKING!)
@@ -140,8 +153,8 @@
 
 ### **Testing Voice Recorder ✅ FUNZIONANTE**
 ```bash
-# Apri il file con layout ottimizzato
-open index-widget-mic.html
+# Apri il sito master con layout ottimizzato
+open index.html
 
 # Workflow verificato:
 # 1. Clicca "Inizia" nel Voice recorder (popup accesso microfono automatico)
@@ -150,17 +163,18 @@ open index-widget-mic.html
 # 4. Clicca "Copia" quando il testo è pronto
 # 5. Incolla nella chat HeyGen
 
-# Layout Features:
+# Layout Features (MASTER):
 # - Header full-width grigio scuro
 # - Sidebar integrata senza divisori
 # - Voice recorder con styling unificato
 # - Design Porsche-inspired pulito
+# - URL principale sempre aggiornato
 ```
 
 ### **Testing Expense Analysis ✅ FUNZIONANTE**
 ```bash
-# Apri la homepage aggiornata
-open index-widget-mic.html
+# Apri la homepage master
+open index.html
 
 # Verifica funzionalità:
 # 1. Scrolla alla sezione "Panoramica Spese Personali"
@@ -168,8 +182,11 @@ open index-widget-mic.html
 # 3. Hover sui segmenti per dettagli (importo + percentuale)
 # 4. Controlla il riepilogo numerico sulla destra
 
-# Apri analisi dettagliata standalone
-open spese-analysis.html
+# Testing online:
+# https://theemeraldnetwork.github.io/davide-interactive-avatar
+
+# Nota: L'analisi spese è ora integrata nella homepage principale
+# Non serve più una pagina separata
 ```
 
 ### **Troubleshooting**
