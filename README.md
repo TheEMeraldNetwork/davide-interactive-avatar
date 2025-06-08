@@ -4,18 +4,33 @@
 
 ## 🌟 **SITO WEB ATTIVO**
 
-🚀 **URL Live**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar)
+🚀 **URL Master (UPDATED!)**: [https://theemeraldnetwork.github.io/davide-interactive-avatar](https://theemeraldnetwork.github.io/davide-interactive-avatar) - Layout Porsche-inspired ottimizzato
 
-## 🎙️ **VOICE ENHANCEMENT - CHECKPOINT ✅**
+✨ **URL Enhanced**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/index-enhanced.html) - Stesso contenuto del master
 
-✅ **File Funzionante**: `index-widget-mic.html` - Widget voice-to-text italiano completamente operativo
+📊 **URL Analisi Spese**: [https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html](https://theemeraldnetwork.github.io/davide-interactive-avatar/spese-analysis.html)
+
+## 📝 **VERSION JOURNAL**
+
+> **POLICY**: `index.html` è sempre la versione **MASTER** corrente. Ogni aggiornamento viene backuppato con timestamp.
+
+### **7 Giugno 2025 - Layout Optimization**
+- **✅ MASTER**: `index.html` → Layout Porsche-inspired con voice recorder integrato
+- **📁 BACKUP**: `index-v7giugno.html` → Versione precedente con layout originale
+- **🔄 CHANGES**: Header full-width, sidebar integrata, styling unificato border-left
+- **🎯 TARGET**: Design pulito senza divisori, ispirato al sito Porsche
+
+## 🎙️ **VOICE ENHANCEMENT - OPTIMIZED LAYOUT ✅**
+
+✅ **File Funzionante**: `index-widget-mic.html` - Layout ottimizzato stile Porsche con voice recorder integrato
 
 ### **Caratteristiche Implementate:**
-- **🎤 Popup Microfono**: Richiesta accesso automatica con gestione errori
-- **📐 Widget Compatto**: 280px larghezza, design ottimizzato
-- **📝 Caratteri Standard**: Nessun emoji, solo caratteri `-` sempre visibili
+- **🎤 Voice Recorder**: Widget semplificato con controlli essenziali
+- **🎨 Design Pulito**: Header full-width, layout Porsche-inspired senza divisori
+- **📐 Sidebar Integrata**: Posizionamento ottimizzato senza sovrapposizioni
+- **🖼️ Styling Unificato**: Border-left design coerente con componenti principali
 - **🇮🇹 Italiano Ottimizzato**: Web Speech API configurata per `it-IT`
-- **📱 Mobile Responsive**: Funziona su tutti i dispositivi
+- **📱 Mobile Responsive**: Layout adattivo e pulito
 - **🔄 Copy/Paste Workflow**: Testo → copia → incolla in HeyGen
 
 ### **Browser Testati:**
@@ -123,17 +138,23 @@
 
 ## 🔧 Aggiornamenti & Voice Widget
 
-### **Testing Voice Widget ✅ FUNZIONANTE**
+### **Testing Voice Recorder ✅ FUNZIONANTE**
 ```bash
-# Apri il file con widget voice
+# Apri il file con layout ottimizzato
 open index-widget-mic.html
 
 # Workflow verificato:
-# 1. Clicca "- Inizia" nel widget (popup accesso microfono automatico)
+# 1. Clicca "Inizia" nel Voice recorder (popup accesso microfono automatico)
 # 2. Autorizza microfono nel browser
 # 3. Parla in italiano chiaramente
-# 4. Clicca "- Copia" quando il testo è pronto
+# 4. Clicca "Copia" quando il testo è pronto
 # 5. Incolla nella chat HeyGen
+
+# Layout Features:
+# - Header full-width grigio scuro
+# - Sidebar integrata senza divisori
+# - Voice recorder con styling unificato
+# - Design Porsche-inspired pulito
 ```
 
 ### **Testing Expense Analysis ✅ FUNZIONANTE**
@@ -153,8 +174,9 @@ open spese-analysis.html
 
 ### **Troubleshooting**
 - **Microfono negato**: Clicca icona microfono nella barra URL → "Consenti"
-- **Caratteri strani**: Risolto - ora usa solo caratteri standard `-`
-- **Widget troppo grande**: Risolto - ora 280px compatto
+- **Layout disallineato**: Risolto - header full-width con z-index ottimizzato
+- **Sidebar sovrapposta**: Risolto - integrazione perfetta nel layout principale
+- **Styling inconsistente**: Risolto - border-left unificato per tutti i componenti
 
 ### **Deploy Updates**
 ```bash
