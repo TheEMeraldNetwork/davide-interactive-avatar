@@ -43,13 +43,14 @@
             right: 0;
             width: 300px;
             height: 100vh;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 1px solid #ddd;
+            background: #ffffff;
             z-index: 9997;
             display: flex;
             flex-direction: column;
-            padding: 20px 0;
+            padding: 0;
         }
+        
+
         
         .avatar-section {
             flex: 1;
@@ -57,17 +58,11 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
+            padding: 80px 20px 20px 20px;
+            background: #ffffff;
         }
         
-        .avatar-label {
-            font-weight: 600;
-            color: #000;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
+
         
         .widget-section {
             flex: 1;
@@ -75,16 +70,19 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
+            background: #ffffff;
         }
         
         .header {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            padding: 25px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 12px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 10000;
             backdrop-filter: blur(10px);
+            width: 100vw;
+            margin-right: 0;
         }
         
         .header::before {
@@ -128,22 +126,7 @@
             margin-top: 5px;
         }
         
-        .refresh-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            color: #fff;
-            font-size: 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-        
-        .refresh-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
+
         
         .card {
             background: #fff;
@@ -305,37 +288,42 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            border: 2px solid #000;
+            border-left: 4px solid #000;
             overflow: hidden;
         }
         
         .voice-widget-header {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #000;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         
         .voice-widget-title {
-            font-weight: 600;
-            font-size: 14px;
+            font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: #000;
+            margin: 0;
+            letter-spacing: 0.5px;
         }
         
         .voice-widget-toggle {
             background: none;
             border: none;
-            color: #fff;
+            color: #000;
             font-size: 18px;
             cursor: pointer;
             padding: 0;
         }
         
         .voice-widget-content {
-            padding: 15px;
-            max-height: 250px;
+            padding: 10px;
+            max-height: 180px;
             overflow-y: auto;
         }
         
@@ -348,14 +336,17 @@
         .voice-btn {
             flex: 1;
             padding: 12px;
-            border: 2px solid #000;
-            background: #fff;
+            border-left: 4px solid #000;
+            background: #f8f9fa;
             color: #000;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
             font-size: 14px;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
         }
         
         .voice-btn:hover {
@@ -378,15 +369,19 @@
         
         .voice-text-area {
             width: 100%;
-            min-height: 80px;
-            border: 2px solid #e0e0e0;
+            min-height: 60px;
+            border-left: 4px solid #000;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
             border-radius: 6px;
-            padding: 10px;
-            font-size: 13px;
-            line-height: 1.4;
+            padding: 8px;
+            font-size: 12px;
+            line-height: 1.3;
             resize: vertical;
             font-family: inherit;
             box-sizing: border-box;
+            background: #f8f9fa;
         }
         
         .voice-text-area:focus {
@@ -403,9 +398,12 @@
         .copy-btn {
             flex: 1;
             padding: 10px;
-            background: #28a745;
-            color: #fff;
-            border: none;
+            background: #f8f9fa;
+            color: #000;
+            border-left: 4px solid #28a745;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
@@ -413,16 +411,19 @@
         }
         
         .copy-btn:hover {
-            background: #218838;
+            background: #e9ecef;
             transform: translateY(-2px);
         }
         
         .clear-btn {
             flex: 1;
             padding: 10px;
-            background: #6c757d;
-            color: #fff;
-            border: none;
+            background: #f8f9fa;
+            color: #000;
+            border-left: 4px solid #6c757d;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
@@ -430,7 +431,7 @@
         }
         
         .clear-btn:hover {
-            background: #5a6268;
+            background: #e9ecef;
             transform: translateY(-2px);
         }
         
@@ -517,14 +518,7 @@
             <div style="display: flex; align-items: center; padding-left: 20px;">
                 <img src="logo Emerald-03.png" alt="Emerald Logo" style="width: 100px; height: 100px; object-fit: contain;">
             </div>
-            <div class="header-controls">
-                <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; color: #fff; font-size: 12px; border-radius: 20px; margin-right: 15px; backdrop-filter: blur(5px);">
-                    🤖 Avatar attivo
-                </div>
-                <button class="refresh-btn" onclick="window.location.reload()">
-                    <span>Refresh</span>
-                </button>
-            </div>
+
         </div>
     </div>
     
@@ -743,15 +737,13 @@
     <div class="right-sidebar">
         <!-- Avatar Section -->
         <div class="avatar-section">
-            <div class="avatar-label">Chiedi a Davide</div>
-            <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 10px;">Clicca sull'avatar quando appare per iniziare la conversazione</div>
         </div>
         
         <!-- Voice Widget Section -->
         <div class="widget-section">
             <div class="voice-widget" id="voiceWidget">
                 <div class="voice-widget-header" onclick="toggleVoiceWidget()">
-                    <div class="voice-widget-title">- Voice-to-Text + Auto-Copy</div>
+                    <div class="voice-widget-title">Voice recorder</div>
                     <button class="voice-widget-toggle" id="toggleBtn">-</button>
                 </div>
                 <div class="voice-widget-content" id="voiceContent">
@@ -760,15 +752,15 @@
                     </div>
                     
                     <div class="voice-controls">
-                        <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">- Inizia</button>
-                        <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>- Stop</button>
+                        <button class="voice-btn" id="startBtn" onclick="requestMicAndStart()">Inizia</button>
+                        <button class="voice-btn" id="stopBtn" onclick="stopListening()" disabled>Stop</button>
                     </div>
                     
                     <textarea class="voice-text-area" id="transcriptArea" placeholder="Il testo riconosciuto apparirà qui..."></textarea>
                     
                     <div class="voice-actions">
-                        <button class="copy-btn" onclick="copyText()">- Copia</button>
-                        <button class="clear-btn" onclick="clearText()">- Cancella</button>
+                        <button class="copy-btn" onclick="copyText()">Copia</button>
+                        <button class="clear-btn" onclick="clearText()">Cancella</button>
                     </div>
                     
                     <div class="voice-status" id="statusDiv">
@@ -780,7 +772,7 @@
     </div>
 
     <!-- HeyGen Avatar Embed Script -->
-    <script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwMDk0OGZmZDMzMzQ0OTU0YjE0OWE1Zjlk%0D%0AZTJkNDVmMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzAwOTQ4ZmZkMzMzNDQ5NTRiMTQ5YTVmOWRlMmQ0NWYzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjE0%0D%0AOGQ4MTM1YmVmNzRlZmE4OTE4NzJlOTZlNmYzZGQ0IiwidXNlcm5hbWUiOiJkN2ZmZWEwNDRmZjc0%0D%0AYTBiYWExOGFkMWI0N2ViZDNmYSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    right: 40px;\n    top: 120px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
+    <script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiIwMDk0OGZmZDMzMzQ0OTU0YjE0OWE1Zjlk%0D%0AZTJkNDVmMyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3Yz%0D%0ALzAwOTQ4ZmZkMzMzNDQ5NTRiMTQ5YTVmOWRlMmQ0NWYzL2Z1bGwvMi4yL3ByZXZpZXdfdGFyZ2V0%0D%0ALndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjE0%0D%0AOGQ4MTM1YmVmNzRlZmE4OTE4NzJlOTZlNmYzZGQ0IiwidXNlcm5hbWUiOiJkN2ZmZWEwNDRmZjc0%0D%0AYTBiYWExOGFkMWI0N2ViZDNmYSJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    right: 40px;\n    top: 140px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
 
     <!-- Voice Recognition JavaScript -->
     <script>
