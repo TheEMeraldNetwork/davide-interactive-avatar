@@ -18,18 +18,23 @@
 
 > **POLICY**: `index.html` è sempre la versione **MASTER** corrente. `avatar.html` contiene il profilo completo. 
 
+### **🎨 9 Giugno 2025 - UI OPTIMIZATION + MINIMALIST LAYOUT + DEPLOY**
+- **✅ NAVIGATION SIMPLIFICATION**: Rimosso pulsante "Entra", logo Emerald unica navigazione
+- **✅ LAYOUT REFINEMENT**: Quote spostate in basso a destra, dritte e leggibili insieme
+- **✅ PRODUCTION DEPLOY**: Modifiche live su GitHub Pages con UX ottimizzata
+- **🎯 MINIMALIST DESIGN**: Layout ultra-pulito stile Porsche, focus sull'essenziale
+
 ### **🎨 15 Gennaio 2025 - FINAL POLISH + OFFSITE AGENDA + DEPLOY**
 - **✅ AGENDA INTEGRATION**: Sezione agenda Offsite CDO 2025 in avatar.html (formato 2 colonne)
 - **✅ HOMEPAGE REFINEMENT**: Logo Emerald spostato a sinistra + citazioni font-size 20px
 - **✅ PRODUCTION DEPLOY**: Sito live su GitHub Pages con navigazione completa
 - **🎯 FINAL TOUCHES**: Layout bilanciato + typography ottimizzata + responsive perfetto
 
-#### **Final Homepage Layout:**
-- **🏷️ Logo Emerald**: Top-left con glassmorphism container
-- **📝 Citazione Sinistra**: "Emerald is like Tango..." (D. Consiglio, 2018) - Font 20px
-- **📝 Citazione Destra**: "...perchè quello migliore è quello illegal" (S. Frigerio) - Font 20px
+#### **Current Homepage Layout (9 Giugno 2025):**
+- **🏷️ Logo Emerald**: Top-left con glassmorphism container (unica navigazione cliccabile)
+- **📝 Quote Bottom-Right**: "Emerald is like Tango..." + "...quello migliore è quello illegal" dritte e insieme
 - **🎬 Video Center**: Background emozionale con overlay elegante
-- **🔘 CTA**: "Offsite CDO 2025 - Grezzana" + bottone "ENTRA"
+- **🎯 MINIMALIST**: Design ultra-pulito, zero clutter, solo logo interattivo
 
 #### **Avatar Page Enhanced:**
 - **📅 AGENDA OFFSITE**: Prima sezione con programma 12-13 giugno in due colonne
@@ -195,6 +200,15 @@
 2. **Production**: Branch `gh-pages` - deploy automatico
 3. **Assets**: Cartella `Immagini e video/` - risorse multimediali
 4. **Navigation**: Homepage → Avatar → Homepage (ciclo completo)
+
+## 🎯 **CHECKPOINT AGGIORNATO - 9 Giugno 2025 - MINIMALIST UI LIVE ✅**
+
+### ✅ Ottimizzazioni UI Completate Oggi:
+- 🗑️ **Pulsante "Entra" Rimosso**: Interfaccia più pulita e minimalista
+- 🖱️ **Logo Emerald Unica Navigazione**: Click diretto su logo per accesso avatar
+- 📍 **Quote Riposizionate**: Entrambe in basso a destra, dritte e leggibili insieme
+- 🎨 **Layout Ultra-Clean**: Zero elementi di distrazione, focus totale sull'essenziale
+- 🚀 **Deploy Live**: Modifiche pubblicate su GitHub Pages con successo
 
 ## 🎯 **CHECKPOINT FINALE - 15 Gennaio 2025 - PRODUCTION READY ✅**
 
