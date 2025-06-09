@@ -53,7 +53,9 @@
             z-index: 2;
         }
 
-        /* Logo Emerald fisso in alto a sinistra */
+
+
+        /* Logo Emerald fisso allineato con Entra */
         .emerald-logo-fixed {
             position: fixed;
             top: 30px;
@@ -69,6 +71,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .emerald-logo-fixed:hover {
@@ -85,25 +88,24 @@
             filter: brightness(1.2) contrast(1.1);
         }
 
-        /* Quote handwritten in alto a sinistra */
+        /* Quote Emerald in basso a destra sopra Frigerio */
         .quote-top {
             position: fixed;
-            top: 120px;
-            left: 40px;
+            bottom: 100px;
+            right: 40px;
             z-index: 999;
             font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
             font-size: 20px;
             color: rgba(180, 180, 180, 0.8);
-            text-align: left;
+            text-align: right;
             line-height: 1.4;
-            max-width: 280px;
-            transform: rotate(-2deg);
+            max-width: 320px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             animation: fadeInQuote 2s ease 1.5s forwards;
             opacity: 0;
         }
 
-        /* Quote handwritten in basso a destra */
+        /* Quote Frigerio in basso a destra */
         .quote-bottom {
             position: fixed;
             bottom: 40px;
@@ -115,7 +117,6 @@
             text-align: right;
             line-height: 1.4;
             max-width: 320px;
-            transform: rotate(1deg);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             animation: fadeInQuote 2s ease 2.5s forwards;
             opacity: 0;
@@ -136,11 +137,11 @@
         @keyframes fadeInQuote {
             from {
                 opacity: 0;
-                transform: translateY(10px) rotate(-2deg);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) rotate(-2deg);
+                transform: translateY(0);
             }
         }
 
@@ -295,8 +296,15 @@
                 padding: 0 20px;
             }
             
-            .emerald-logo-fixed {
+            .avatar-command-box {
                 top: 20px;
+                left: 20px;
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+
+            .emerald-logo-fixed {
+                top: 70px;
                 left: 20px;
                 width: 60px;
                 height: 60px;
@@ -308,7 +316,7 @@
             }
             
             .quote-top {
-                top: 90px;
+                top: 140px;
                 left: 20px;
                 font-size: 18px;
                 max-width: 200px;
@@ -343,8 +351,15 @@
         }
 
         @media (max-width: 480px) {
-            .emerald-logo-fixed {
+            .avatar-command-box {
                 top: 15px;
+                left: 15px;
+                font-size: 11px;
+                padding: 8px 14px;
+            }
+
+            .emerald-logo-fixed {
+                top: 60px;
                 left: 15px;
                 width: 50px;
                 height: 50px;
@@ -356,7 +371,7 @@
             }
             
             .quote-top {
-                top: 75px;
+                top: 120px;
                 left: 15px;
                 font-size: 16px;
                 max-width: 160px;
@@ -407,11 +422,17 @@
                 opacity: 1;
             }
         }
+
+        @keyframes boxFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Logo Emerald fisso in alto a sinistra -->
-    <div class="emerald-logo-fixed logo-fade-in">
+    <!-- Logo Emerald fisso -->
+    <div class="emerald-logo-fixed logo-fade-in" onclick="enterExperience()">
         <img src="Immagini e video/logo Emerald-03.png" alt="Emerald Network" loading="lazy">
     </div>
 
@@ -430,7 +451,7 @@
     <!-- Video background -->
     <div class="video-background">
         <video autoplay muted loop playsinline>
-            <source src="Immagini e video/Registrazione schermo 2025-06-08 alle 19.33.28.mov" type="video/mp4">
+                            <source src="Immagini e video/Google Earth 2.mp4" type="video/mp4">
             <!-- Fallback per browser che non supportano il video -->
             <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); width: 100%; height: 100%;"></div>
         </video>
@@ -442,13 +463,8 @@
 
     <!-- Container principale -->
     <div class="main-container">
-        <div class="brand-container" onclick="enterExperience()">            
-            <!-- Call to Action -->
-            <div class="cta-section fade-in-up">
-                <button class="enter-button" onclick="enterExperience()">
-                    ENTRA
-                </button>
-            </div>
+        <div class="brand-container">            
+            <!-- Contenuto principale senza pulsante -->
         </div>
     </div>
 
@@ -478,7 +494,7 @@
             });
             
             // Effetti hover per elementi interattivi
-            const interactiveElements = document.querySelectorAll('.brand-container, .enter-button, .emerald-logo-fixed');
+            const interactiveElements = document.querySelectorAll('.brand-container, .emerald-logo-fixed');
             
             interactiveElements.forEach(element => {
                 element.addEventListener('mouseenter', () => {
