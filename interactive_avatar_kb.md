@@ -122,10 +122,19 @@ Day 1 – introductions, Business Time 1 (P&C, Marketing/Vita/Salute), external 
 Day 2 – Business Time 2 (Business Intelligence, Network, Platform, Data Quality), Tech Time (Reply Innovation Lab & GenBelt Emerald), Sport Time, Artificial intelligence Time, announcement of winners, closure.  
 Full timetable in `personal_pages/offsite_agenda_grezzana_20250612.md`.
 
-### 8. Spending Behavior (Financial Overview 2024-2025)
-Davide's spending analysis from bank and credit card data reveals distinct patterns across consumer categories. Banking operations (investments, transfers) represent the majority of total financial movements, while consumer spending focuses on recurring services and discretionary purchases. Detailed merchant-level data is available but protected (see privacy rule above). Exact amounts and merchants will only be disclosed upon correct password entry.
+### 8. Spending Behavior & Financial Analysis (2024-2025)
+Davide's comprehensive financial analysis reveals sophisticated spending patterns across multiple categories, with total annual personal expenses of approximately €114,200 (average €9,517/month).
 
-**Consumer Spending Breakdown (2024-2025)**:
+**Primary Spending Categories**:
+- **Casa e Abitazione**: 35% (~€40,000) - Mortgage, utilities, home maintenance, property management
+- **Auto e Trasporti**: 18% (~€20,500) - Fuel, insurance, maintenance, parking, tolls, occasional car rentals
+- **Spese Quotidiane**: 15% (~€17,000) - Groceries, dining, shopping, daily necessities
+- **Vittoria (Famiglia)**: 12% (~€14,000) - School fees, activities, clothing, support for daughter
+- **Tempo Libero**: 10% (~€11,500) - Travel, entertainment, hobbies, dining out
+- **Salute e Benessere**: 5% (~€5,700) - Healthcare, fitness, wellness services
+- **Altri**: 5% (~€5,500) - Miscellaneous and irregular expenses
+
+**Payment Method Distribution**:
 - **Direct Debits**: ~57% (utilities, subscriptions, recurring services)
 - **Card Payments**: ~33% (daily purchases, dining, shopping)  
 - **Cash Withdrawals**: ~4% (cash transactions)
@@ -133,7 +142,9 @@ Davide's spending analysis from bank and credit card data reveals distinct patte
 - **Tech/AI Services**: ~1% (professional tools: Cursor, Claude, AWS, D-ID, Perplexity)
 - **Online/Retail**: ~1% (Amazon, Apple, electronics)
 
-**AmEx Credit Card Focus**: Tech/AI tools (35%), banking fees (29%), online shopping (14%), dining & services (22%). Reflects professional data science work and business expenses.
+**AmEx Credit Card Profile**: Tech/AI tools (35%), banking fees (29%), online shopping (14%), dining & services (22%). Reflects professional data science work and business expenses.
+
+**Financial Characteristics**: Well-managed expenses with clear priority allocation toward family (Vittoria), home ownership, and professional development. The spending pattern reflects a senior executive lifestyle with emphasis on quality of life, family responsibilities, and career growth investments.
 
 ### 9. Casa e Residenza - Milano Apartment
 Davide risiede a Milano in un appartamento moderno e sofisticato con design contemporaneo milanese.
