@@ -30,7 +30,7 @@
             overflow: hidden;
         }
 
-        .video-background video {
+        .video-background iframe {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -450,12 +450,13 @@
 
     <!-- Video background -->
     <div class="video-background">
-        <video autoplay muted loop playsinline crossorigin="anonymous">
-            <source src="https://drive.google.com/uc?id=1i6qdwCrNcGH7ECEvvNmTg1wuLu0AK3zm&export=download" type="video/quicktime">
-            <source src="Immagini e video/Registrazione schermo 2025-06-08 alle 19.33.28.mov" type="video/quicktime">
-            <!-- Fallback per browser che non supportano il video -->
-            <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); width: 100%; height: 100%;"></div>
-        </video>
+        <iframe 
+            src="https://www.youtube.com/embed/wTpS7AdBU40?autoplay=1&mute=1&loop=1&playlist=wTpS7AdBU40&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=1"
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen
+            style="position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh; transform: translate(-50%, -50%) scale(1.2); pointer-events: none;">
+        </iframe>
         <div class="video-overlay"></div>
     </div>
 
@@ -524,26 +525,15 @@
             }, 1000);
         }
 
-        // Gestione video
-        function setupVideo() {
-            const video = document.querySelector('video');
+        // Gestione YouTube iframe
+        function setupYouTubeVideo() {
+            const iframe = document.querySelector('iframe');
             
-            // Gestisci errori di caricamento video
-            video.addEventListener('error', function(e) {
-                console.log('Errore caricamento video:', e);
-                // Fallback a gradiente se video non si carica
+            // Fallback se YouTube non carica
+            iframe.addEventListener('error', function(e) {
+                console.log('Errore caricamento YouTube:', e);
                 document.querySelector('.video-background').style.background = 
                     'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #0a0a0a 100%)';
-            });
-            
-            // Assicurati che il video sia sempre in mute per autoplay
-            video.muted = true;
-            
-            // Riprova il play se fallisce
-            video.addEventListener('loadeddata', function() {
-                video.play().catch(function(error) {
-                    console.log('Autoplay fallito:', error);
-                });
             });
         }
 
@@ -563,7 +553,7 @@
         // Inizializzazione
         window.addEventListener('load', () => {
             setupCustomCursor();
-            setupVideo();
+            setupYouTubeVideo();
             
             // Animazione di ingresso della pagina
             document.body.style.opacity = '1';
