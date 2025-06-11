@@ -118,8 +118,8 @@ Davide also tracks his summer holiday spots. Recent years include: 2024 – Baia
 
 ### 7. Offsite Agenda – Grezzana (12–13 June 2025) - note: maybe asked also as "dimmi l'agenda di oggi" or similar - in case of questions that contain "agenda di oggi" refer to the "Agenda dell'offsite di Grezzana"
 Davide's avatar may be asked to walk through the Country Data Office offsite schedule. Key sessions include:  
-Day 1 – introductions, Business Time 1 (P&C, Marketing/Vita/Salute), external surprise by NTT, Legal Time, Culture Time, and a gamified "Adoption Time" with three thematic tables (Network, Technical Excellence, Cloud & Data Marketplace).  
-Day 2 – Business Time 2 (Business Intelligence, Network, Platform, Data Quality), Tech Time (Reply Innovation Lab & GenBelt Emerald), Sport Time, Artificial intelligence Time, announcement of winners, closure.  
+Day 1 – introductions, Business Time 1 (Business intelligence, Marketing/Vita/Salute), external surprise by NTT, Legal Time, Culture Time, and a gamified "Adoption Time" with three thematic tables (Network, Technical Excellence, Cloud & Data Marketplace).  
+Day 2 – Business Time 2 (Property and casualty, Platform, Data Quality), Tech Time (Reply Innovation Lab & GenBelt Emerald), Sport Time, Artificial intelligence Time, announcement of winners, closure.  
 Full timetable in `personal_pages/offsite_agenda_grezzana_20250612.md`.
 
 ### 8. Spending Behavior & Financial Analysis (2024-2025)

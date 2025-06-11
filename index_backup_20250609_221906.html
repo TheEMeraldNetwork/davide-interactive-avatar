@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emerald Network - Davide Consiglio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Porsche Next', 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+            cursor: none;
+        }
+
+        /* Video background stile Porsche */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.1);
+        }
+
+        /* Overlay gradient stile Porsche */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.1) 50%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            z-index: 2;
+        }
+
+        /* Logo Emerald fisso in alto a sinistra */
+        .emerald-logo-fixed {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 80px;
+            height: 80px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .emerald-logo-fixed:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .emerald-logo-fixed img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        /* Quote handwritten in alto a sinistra */
+        .quote-top {
+            position: fixed;
+            top: 120px;
+            left: 40px;
+            z-index: 999;
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: 20px;
+            color: rgba(180, 180, 180, 0.8);
+            text-align: left;
+            line-height: 1.4;
+            max-width: 280px;
+            transform: rotate(-2deg);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            animation: fadeInQuote 2s ease 1.5s forwards;
+            opacity: 0;
+        }
+
+        /* Quote handwritten in basso a destra */
+        .quote-bottom {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 999;
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+            font-size: 20px;
+            color: rgba(170, 170, 170, 0.7);
+            text-align: right;
+            line-height: 1.4;
+            max-width: 320px;
+            transform: rotate(1deg);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            animation: fadeInQuote 2s ease 2.5s forwards;
+            opacity: 0;
+        }
+
+        .quote-text {
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+
+        .quote-author {
+            font-size: 0.85em;
+            color: rgba(150, 150, 150, 0.6);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeInQuote {
+            from {
+                opacity: 0;
+                transform: translateY(10px) rotate(-2deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(-2deg);
+            }
+        }
+
+        /* Container principale */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        /* Logo container minimalista Porsche - ora senza logo */
+        .brand-container {
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            position: relative;
+            max-width: 500px;
+        }
+
+        .brand-container:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Typography stile Porsche */
+        .brand-name {
+            font-family: 'Porsche Next', 'Arial', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+        }
+
+        /* Call to action stile Porsche */
+        .cta-section {
+            position: relative;
+        }
+
+        .enter-button {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            font-family: 'Porsche Next', 'Arial', sans-serif;
+        }
+
+        .enter-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .enter-hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 25px;
+            font-weight: 300;
+            animation: subtlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes subtlePulse {
+            0%, 100% { 
+                opacity: 0.5; 
+                transform: translateY(0px);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: translateY(-2px);
+            }
+        }
+
+        /* Effetti di loading minimalisti */
+        .loading-dots {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 4px;
+            animation: loadingDot 1.4s ease-in-out infinite both;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes loadingDot {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Cursore personalizzato Porsche */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 20px;
+            }
+            
+            .emerald-logo-fixed {
+                top: 20px;
+                left: 20px;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .emerald-logo-fixed img {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .quote-top {
+                top: 90px;
+                left: 20px;
+                font-size: 18px;
+                max-width: 200px;
+            }
+            
+            .quote-bottom {
+                bottom: 20px;
+                right: 20px;
+                font-size: 18px;
+                max-width: 220px;
+            }
+            
+            .brand-name {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 40px;
+            }
+            
+            .enter-button {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .emerald-logo-fixed {
+                top: 15px;
+                left: 15px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .emerald-logo-fixed img {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .quote-top {
+                top: 75px;
+                left: 15px;
+                font-size: 16px;
+                max-width: 160px;
+            }
+            
+            .quote-bottom {
+                bottom: 15px;
+                right: 15px;
+                font-size: 16px;
+                max-width: 180px;
+            }
+            
+            .brand-name {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        /* Animazioni di entrata */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .fade-in-up:nth-child(1) { animation-delay: 0.2s; }
+        .fade-in-up:nth-child(2) { animation-delay: 0.4s; }
+        .fade-in-up:nth-child(3) { animation-delay: 0.6s; }
+        .fade-in-up:nth-child(4) { animation-delay: 0.8s; }
+        .fade-in-up:nth-child(5) { animation-delay: 1s; }
+
+        /* Animazione logo fisso */
+        .logo-fade-in {
+            opacity: 0;
+            animation: logoFadeIn 1.2s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Emerald fisso in alto a sinistra -->
+    <div class="emerald-logo-fixed logo-fade-in">
+        <img src="Immagini e video/logo Emerald-03.png" alt="Emerald Network" loading="lazy">
+    </div>
+
+    <!-- Quote handwritten in alto a sinistra -->
+    <div class="quote-top">
+        <div class="quote-text">"Emerald is like Tango..."</div>
+        <div class="quote-author">(D. Consiglio)</div>
+    </div>
+
+    <!-- Quote handwritten in basso a destra -->
+    <div class="quote-bottom">
+        <div class="quote-text">"... quello migliore è quello illegal"</div>
+        <div class="quote-author">(S. Frigerio)</div>
+    </div>
+
+    <!-- Video background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="Immagini e video/Registrazione schermo 2025-06-08 alle 19.33.28.mov" type="video/mp4">
+            <!-- Fallback per browser che non supportano il video -->
+            <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); width: 100%; height: 100%;"></div>
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Cursore personalizzato -->
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- Container principale -->
+    <div class="main-container">
+        <div class="brand-container" onclick="enterExperience()">            
+            <!-- Call to Action -->
+            <div class="cta-section fade-in-up">
+                <button class="enter-button" onclick="enterExperience()">
+                    ENTRA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading dots -->
+    <div class="loading-dots" id="loadingDots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <script>
+        // Cursore personalizzato
+        function setupCustomCursor() {
+            const cursor = document.getElementById('cursor');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - 10 + 'px';
+                cursor.style.top = e.clientY - 10 + 'px';
+            });
+            
+            document.addEventListener('mousedown', () => {
+                cursor.style.transform = 'scale(0.8)';
+            });
+            
+            document.addEventListener('mouseup', () => {
+                cursor.style.transform = 'scale(1)';
+            });
+            
+            // Effetti hover per elementi interattivi
+            const interactiveElements = document.querySelectorAll('.brand-container, .enter-button, .emerald-logo-fixed');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(1.5)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.9)';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+                });
+            });
+        }
+
+        // Navigazione all'esperienza
+        function enterExperience() {
+            // Mostra loading
+            document.getElementById('loadingDots').style.display = 'block';
+            
+            // Effetto di transizione elegante
+            document.body.style.transition = 'opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'avatar.html';
+            }, 1000);
+        }
+
+        // Gestione video
+        function setupVideo() {
+            const video = document.querySelector('video');
+            
+            // Gestisci errori di caricamento video
+            video.addEventListener('error', function(e) {
+                console.log('Errore caricamento video:', e);
+                // Fallback a gradiente se video non si carica
+                document.querySelector('.video-background').style.background = 
+                    'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #0a0a0a 100%)';
+            });
+            
+            // Assicurati che il video sia sempre in mute per autoplay
+            video.muted = true;
+            
+            // Riprova il play se fallisce
+            video.addEventListener('loadeddata', function() {
+                video.play().catch(function(error) {
+                    console.log('Autoplay fallito:', error);
+                });
+            });
+        }
+
+        // Effetti keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                enterExperience();
+            }
+        });
+
+        // Prevent right click context menu
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Inizializzazione
+        window.addEventListener('load', () => {
+            setupCustomCursor();
+            setupVideo();
+            
+            // Animazione di ingresso della pagina
+            document.body.style.opacity = '1';
+        });
+
+        // Preload delle risorse
+        document.addEventListener('DOMContentLoaded', () => {
+            // Preload avatar.html
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = 'avatar.html';
+            document.head.appendChild(link);
+        });
+    </script>
+</body>
+</html>

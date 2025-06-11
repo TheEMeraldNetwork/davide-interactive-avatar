@@ -4,7 +4,7 @@
 | Time | Session | Speakers |
 |------|---------|----------|
 | 11:00 – 11:30 | Introduzione | Perin, Consiglio |
-| 11:30 – 12:30 | Business Time 1  <br/>• P&C, Costi e Operations  <br/>• Marketing, Vita e Salute | Colombo, Scarabattoli |
+| 11:30 – 12:30 | Business Time 1  <br/>• Business & Network Intelligence  <br/>• Marketing, Vita e Salute | Colombo, Scarabattoli |
 | 12:30 – 13:00 | Intervento esterno & sorpresa | NTT |
 | 13:00 – 14:30 | Pranzo | – |
 | 14:30 – 15:00 | Legal Time | M.C. Muglia |
@@ -14,7 +14,7 @@
 ## Day 2 – 13 June 2025 (Friday)
 | Time | Session | Speakers |
 |------|---------|----------|
-| 09:00 – 10:00 | Business Time 2  <br/>• Business & Network Intelligence  <br/>• Platform, Data Governance & Quality | Perciballi, Natale |
+| 09:00 – 10:00 | Business Time 2  <br/>• P&C, Costi e Operations  <br/>• Platform, Data Governance & Quality | Perciballi, Natale |
 | 10:00 – 10:45 | Tech Time  <br/>• Reply Innovation Lab  <br/>• GenBelt Emerald | Paladini, Frigerio, Bencini |
 | 10:45 – 11:00 | Sport Time – Visore & Fun | – |
 | 11:00 – 11:30 | Pausa | – |
