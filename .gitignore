@@ -51,4 +51,7 @@ movements_*.csv
 # Allow specific public files
 !README.md
 !logo*.png
-!favicon.ico 
+!favicon.ico
+
+# Knowledge base file
+interactive_avatar_kb.md 
