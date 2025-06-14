@@ -333,4 +333,15 @@ Il progetto è ora completamente funzionale e pronto per ulteriori sviluppi. La 
 - Mobile responsive design
 - Performance ottimizzate
 
-**Ready for new requests! 🚀** 
+**Ready for new requests! 🚀**
+
+## Maintenance Mode Notice
+The site is currently in maintenance mode. The original files have been backed up and can be restored from:
+
+- Main homepage: `backup/index_original_20250610.html`
+- Avatar page: `backup/avatar_original_20250610.html`
+- Knowledge base: `backup/interactive_avatar_kb_20250610.md`
+
+To restore the site, simply copy these files back to their original locations:
+- `backup/index_original_20250610.html` → `index.html`
+- `backup/avatar_original_20250610.html` → `avatar.html` 
